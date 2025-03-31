@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +14,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//会員登録画面を表示する
+Route::get('/register',[UserController::class, 'register']);
+
+//会員登録画面で名前、メールアドレス等を登録する
+Route::post('/register', [UserController::class, 'store']);

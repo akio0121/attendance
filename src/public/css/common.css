@@ -14,12 +14,12 @@
     justify-content: space-between;
 }
 
-.header__logo {
+/*.header__logo {
     color: #fff;
     text-decoration: none;
     font-weight: bold;
     font-size: 24px;
-}
+}*/
 
 .header-utilities nav {
     width: 18%;
@@ -31,9 +31,22 @@
     justify-content: space-between;
 }
 
+.header-nav__item {
+    display: flex;
+    /* ナビゲーションアイテムを横並びに */
+    align-items: center;
+    /* 縦位置を調整 */
+    width: auto;
+    /* 必要な幅を確保 */
+}
+
 .header-nav__link {
     color: #fff;
     text-decoration: none;
+    display: inline-block;
+    /* 横並びを維持 */
+    writing-mode: horizontal-tb;
+    /* 横書きにする */
 }
 
 .header-nav__button {
@@ -42,10 +55,14 @@
     color: #fff;
     font-size: 16px;
     cursor: pointer;
+    display: inline-block;
+    /* ボタンを横並びに */
+    padding: 8px 12px;
+    /* 余白を適度に */
+
 }
 
 .logo {
     height: auto;
     max-width: 100%;
-    /* 幅を親要素にフィットさせる */
 }

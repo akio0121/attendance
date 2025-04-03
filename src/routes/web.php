@@ -1,7 +1,10 @@
 <?php
 
+use App\Http\Controllers\AttendanceController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Models\Attendance;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,7 +18,45 @@ use App\Http\Controllers\UserController;
 */
 
 //会員登録画面を表示する
-Route::get('/register',[UserController::class, 'register']);
+Route::get('/register', [UserController::class, 'register']);
 
 //会員登録画面で名前、メールアドレス等を登録する
 Route::post('/register', [UserController::class, 'store']);
+
+//ヘッダーのログアウトボタンを押して、ログアウト後、ログインページへ遷移する
+Route::post('/logout', function () {
+    $user = Auth::user();
+    Auth::logout();
+    if ($user && $user->admin_flg == 0) {
+        return redirect('/login');
+    } else {
+        return redirect('/admin/login');
+    }
+});
+
+//ログイン画面を表示する
+Route::get('/login', [UserController::class, 'login']);
+
+//ログイン画面でログインする
+Route::post('/login', [UserController::class, 'login02']);
+
+//管理者ログイン画面を表示する
+Route::get('admin/login', [UserController::class, 'adminLogin']);
+
+//管理者ログイン画面で、ログインする
+Route::post('admin/login', [UserController::class, 'adminLogin02']);
+
+//ログイン後、出勤登録画面を表示する
+/*Route::get('/attendance', function () {
+    return view('attendance.entry'); 
+})->middleware('auth');
+*/
+
+//ログイン後、勤務状態を取得して出勤登録画面を表示する
+Route::get('/attendance', [AttendanceController::class, 'showEntry'])
+    ->middleware('auth');
+
+//出勤登録画面で、出勤時刻を記録する
+Route::post('/attendance', [AttendanceController::class, 'startWork'])
+    ->name('attendance.start')
+    ->middleware('auth');

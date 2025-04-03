@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\LoginRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-
     //会員登録画面を表示する
     public function register()
     {
@@ -26,5 +25,44 @@ class UserController extends Controller
         $user->admin_flg = 0;
         $user->save();
         Auth::login($user);
+        return redirect('/attendance');
+    }
+
+    //ログイン画面を表示する
+    public function login()
+    {
+        return view('auth.login');
+    }
+
+    //ログイン画面でログインする
+    public function login02(LoginRequest $request)
+    {
+        if (Auth::attempt($request->only('email', 'password'), false)) {
+            $user = Auth::user();
+            if ($user->admin_flg == 0) {
+                return redirect('/attendance');
+            } else {
+                return redirect('/admin/attendance/list');
+            }
+        }
+    }
+
+    //管理者ログイン画面を表示する
+    public function adminLogin()
+    {
+        return view('auth.admin_login');
+    }
+
+    //管理者ログイン画面で、ログインする
+    public function adminLogin02(LoginRequest $request)
+    {
+        if (Auth::attempt($request->only('email', 'password'), false)) {
+            $user = Auth::user();
+            if ($user->admin_flg == 0) {
+                return redirect('/attendance');
+            } else {
+                return redirect('/admin/attendance/list');
+            }
+        }
     }
 }

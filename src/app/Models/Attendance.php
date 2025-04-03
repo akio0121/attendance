@@ -17,4 +17,9 @@ class Attendance extends Model
         'total_work',
 
     ];
+
+    public function rests()
+    {
+        return $this->hasMany(Rest::class, 'attendance_id', 'id');
+    }
 }

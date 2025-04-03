@@ -1,9 +1,8 @@
 <?php
 
-use App\Http\Controllers\AttendanceController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
-use App\Models\Attendance;
+use App\Http\Controllers\AttendanceController;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -46,17 +45,14 @@ Route::get('admin/login', [UserController::class, 'adminLogin']);
 //管理者ログイン画面で、ログインする
 Route::post('admin/login', [UserController::class, 'adminLogin02']);
 
-//ログイン後、出勤登録画面を表示する
-/*Route::get('/attendance', function () {
-    return view('attendance.entry'); 
-})->middleware('auth');
-*/
-
 //ログイン後、勤務状態を取得して出勤登録画面を表示する
 Route::get('/attendance', [AttendanceController::class, 'showEntry'])
     ->middleware('auth');
 
 //出勤登録画面で、出勤時刻を記録する
-Route::post('/attendance', [AttendanceController::class, 'startWork'])
-    ->name('attendance.start')
+Route::post('/attendance', [AttendanceController::class, 'startWork'])->name('attendance')
+    ->middleware('auth');
+
+//出勤登録画面で、休憩開始時刻を記録する
+Route::post('/attendance/rest', [AttendanceController::class, 'startRest'])->name('attendance.rest')
     ->middleware('auth');

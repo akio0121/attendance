@@ -15,6 +15,11 @@
     </span>
 </p>
 
+<form action="{{ route('attendance.finishwork') }}" method="POST">
+    @csrf
+    <button type="submit">退勤</button>
+</form>
+
 <form action="{{ route('attendance.rest') }}" method="POST">
     @csrf
     <button type="submit">休憩入</button>

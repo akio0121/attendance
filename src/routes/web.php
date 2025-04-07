@@ -37,13 +37,13 @@ Route::post('/logout', function () {
 Route::get('/login', [UserController::class, 'login']);
 
 //ログイン画面でログインする
-Route::post('/login', [UserController::class, 'login02']);
+Route::post('/login', [UserController::class, 'startLogin']);
 
 //管理者ログイン画面を表示する
 Route::get('admin/login', [UserController::class, 'adminLogin']);
 
 //管理者ログイン画面で、ログインする
-Route::post('admin/login', [UserController::class, 'adminLogin02']);
+Route::post('admin/login', [UserController::class, 'adminStartLogin']);
 
 //ログイン後、勤務状態を取得して出勤登録画面を表示する
 Route::get('/attendance', [AttendanceController::class, 'showEntry'])

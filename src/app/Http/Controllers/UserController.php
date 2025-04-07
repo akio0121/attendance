@@ -35,7 +35,7 @@ class UserController extends Controller
     }
 
     //ログイン画面でログインする
-    public function login02(LoginRequest $request)
+    public function startLogin(LoginRequest $request)
     {
         if (Auth::attempt($request->only('email', 'password'), false)) {
             $user = Auth::user();
@@ -54,7 +54,7 @@ class UserController extends Controller
     }
 
     //管理者ログイン画面で、ログインする
-    public function adminLogin02(LoginRequest $request)
+    public function adminStartLogin(LoginRequest $request)
     {
         if (Auth::attempt($request->only('email', 'password'), false)) {
             $user = Auth::user();

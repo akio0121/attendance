@@ -68,3 +68,6 @@ Route::post('/attendance/finishrest', [AttendanceController::class, 'finishRest'
 //勤怠一覧画面を表示する
 Route::get('/attendance/list', [AttendanceController::class, 'showList'])->name('attendance.list')
     ->middleware('auth');
+
+//勤怠詳細画面を表示する
+Route::get('/attendance/{id}', [AttendanceController::class, 'showDetail'])->name('attendance.detail');

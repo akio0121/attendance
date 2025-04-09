@@ -188,4 +188,12 @@ class AttendanceController extends Controller
 
         return view('attendance.list', compact('attendances', 'currentMonth', 'previousMonth', 'nextMonth'));
     }
+
+    //勤怠詳細画面を表示する
+    public function showDetail($id)
+    {
+        $user = Auth::user();
+        $attendance = Attendance::with('rests')->findOrFail($id);
+        return view('attendance.detail', compact('user', 'attendance'));
+    }
 }

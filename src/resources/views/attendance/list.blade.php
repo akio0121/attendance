@@ -48,6 +48,9 @@
             @endphp
             {{ sprintf('%02d:%02d', $hours, $minutes) }}
         </td>
+        <td>
+            <a href="{{ route('attendance.detail', ['id' => $attendance->id]) }}">詳細</a>
+        </td>
 
     </tr>
     @endforeach

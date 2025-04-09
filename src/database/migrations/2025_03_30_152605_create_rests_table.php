@@ -18,7 +18,7 @@ class CreateRestsTable extends Migration
             $table->foreignId('attendance_id');
             $table->time('start_rest');
             $table->time('finish_rest')->nullable();
-            $table->time('total_rest')->nullable();
+            $table->integer('total_rest')->nullable();
             $table->timestamps();
         });
     }

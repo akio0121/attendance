@@ -8,6 +8,7 @@ use App\Models\Rest;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
+
 class AttendanceController extends Controller
 {
 
@@ -23,7 +24,7 @@ class AttendanceController extends Controller
 
         //勤怠登録画面(出勤前)を表示する
         if (!$attendance) {
-            return view('attendance.entry', compact('attendance'));
+            return view('attendance.show_entry', compact('attendance'));
         }
 
         // 勤怠登録画面(出勤後)を表示する
@@ -44,7 +45,7 @@ class AttendanceController extends Controller
             });
 
             if ($startWorkExists && $finishWorkEmpty && ($hasNotStartedRest || $lastRestFinished)) {
-                return view('attendance.entry02', compact('attendance'));
+                return view('attendance.start_work', compact('attendance'));
             }
         }
 
@@ -57,7 +58,7 @@ class AttendanceController extends Controller
             });
 
             if ($startWorkExists && $finishWorkEmpty && $hasStartedRest) {
-                return view('attendance.entry03', compact('attendance'));
+                return view('attendance.start_rest', compact('attendance'));
             }
         }
 
@@ -67,7 +68,7 @@ class AttendanceController extends Controller
             $hasFinishWork = !is_null($attendance->finish_work);
 
             if ($hasStartWork && $hasFinishWork) {
-                return view('attendance.entry04', compact('attendance'));
+                return view('attendance.finish_work', compact('attendance'));
             }
         }
     }
@@ -87,7 +88,7 @@ class AttendanceController extends Controller
                 'start_work' => $now,
             ]);
         }
-        return view('attendance.entry02');
+        return view('attendance.start_work');
     }
 
     //出勤登録画面で、休憩入ボタンを押下して休憩開始時刻を記録する
@@ -107,7 +108,7 @@ class AttendanceController extends Controller
                 'total_rest' => null,
             ]);
         }
-        return view('attendance.entry03');
+        return view('attendance.start_rest');
     }
 
     //出勤登録画面で、退勤ボタンを押下して退勤時刻を記録する
@@ -124,7 +125,7 @@ class AttendanceController extends Controller
             $attendance->finish_work = Carbon::now()->toTimeString();
             $attendance->save();
 
-            return view('attendance.entry04', compact('attendance'));
+            return view('attendance.finish_work', compact('attendance'));
         }
     }
 
@@ -149,6 +150,42 @@ class AttendanceController extends Controller
             }
         }
 
-        return view('attendance.entry02', compact('attendance'));
+        return view('attendance.start_work', compact('attendance'));
+    }
+
+    //勤怠一覧画面を表示する
+    public function showList(Request $request)
+    {
+        /** @var \App\Models\User $user */
+        //ログインしたユーザーの、attendancesテーブル、restsテーブルのデータを取得する
+        $user = Auth::user();
+        Carbon::setLocale('ja');
+        $attendances = $user->attendances()->with('rests')->get();
+
+        //現在の月を取得する
+        $currentMonth = $request->input('month', Carbon::now()->format('Y-m'));
+        //対象月の開始、終了日を取得する
+        $startOfMonth = Carbon::createFromFormat('Y-m', $currentMonth)->startOfMonth();
+        $endOfMonth = $startOfMonth->copy()->endOfMonth();
+        // 該当月のデータのみ取得
+        $attendances = $user->attendances()
+            ->whereBetween('date', [$startOfMonth->toDateString(), $endOfMonth->toDateString()])
+            ->with('rests')
+            ->orderBy('date', 'asc')
+            ->get();
+
+        foreach ($attendances as $attendance) {
+            //休憩を複数回取った場合、合計時間を表示する
+            $attendance->total_rest_minutes = $attendance->rests->sum('total_rest');
+            //attendancesテーブルのtotal_workからrestsテーブルのtotal_restをマイナスする
+            $netWorkMinutes = $attendance->total_work - $attendance->total_rest_minutes;
+            $attendance->net_work_minutes = max($netWorkMinutes, 0);
+        }
+
+        // 前月・翌月を算出する
+        $previousMonth = $startOfMonth->copy()->subMonth()->format('Y-m');
+        $nextMonth = $startOfMonth->copy()->addMonth()->format('Y-m');
+
+        return view('attendance.list', compact('attendances', 'currentMonth', 'previousMonth', 'nextMonth'));
     }
 }

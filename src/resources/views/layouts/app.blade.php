@@ -20,10 +20,10 @@
                     <ul class="header-nav">
                         @if (Auth::check())
                         <li class="header-nav__item">
-                            <a class="header-nav__link" href="/mypage">勤怠</a>
+                            <a class="header-nav__link" href="/attendance">勤怠</a>
                         </li>
                         <li class="header-nav__item">
-                            <a class="header-nav__link" href="/mypage">勤怠一覧</a>
+                            <a class="header-nav__link" href="/attendance/list">勤怠一覧</a>
                         </li>
                         <li class="header-nav__item">
                             <a class="header-nav__link" href="/mypage">申請</a>

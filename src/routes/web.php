@@ -64,3 +64,7 @@ Route::post('/attendance/finishwork', [AttendanceController::class, 'finishWork'
 //出勤登録画面で、休憩終了時刻を記録する
 Route::post('/attendance/finishrest', [AttendanceController::class, 'finishRest'])->name('attendance.finishrest')
     ->middleware('auth');
+
+//勤怠一覧画面を表示する
+Route::get('/attendance/list', [AttendanceController::class, 'showList'])->name('attendance.list')
+    ->middleware('auth');

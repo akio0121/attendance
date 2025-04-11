@@ -22,10 +22,20 @@
         </div>
         <div>
             @foreach ($attendance->rests as $rest)
-            <label>休憩</label>
+            休憩{{ $loop->iteration > 1 ? $loop->iteration : '' }}
             <input type="time" name="start_rest" value="{{ old('start_rest', $rest->start_rest) }}" required>～
             <input type="time" name="finish_rest" value="{{ old('finish_rest', $rest->finish_rest) }}" required>
             @endforeach
+        </div>
+
+        @php
+        $nextNumber = $attendance->rests->count() + 1;
+        @endphp
+
+        <div>
+            <label>休憩{{ $nextNumber }}</label>
+            <input type="time" name="rests[new][start_rest]" value="{{ old('rests.new.start_rest') }}">～
+            <input type="time" name="rests[new][finish_rest]" value="{{ old('rests.new.finish_rest') }}">
         </div>
     </form>
 </div>

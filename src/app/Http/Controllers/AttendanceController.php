@@ -179,12 +179,20 @@ class AttendanceController extends Controller
         //対象月の開始、終了日を取得する
         $startOfMonth = Carbon::createFromFormat('Y-m', $currentMonth)->startOfMonth();
         $endOfMonth = $startOfMonth->copy()->endOfMonth();
+
+        // その月の全日付を取得
+        $daysInMonth = [];
+        for ($date = $startOfMonth->copy(); $date->lte($endOfMonth); $date->addDay()) {
+            $daysInMonth[] = $date->copy();
+        }
         // 該当月のデータのみ取得
         $attendances = $user->attendances()
             ->whereBetween('date', [$startOfMonth->toDateString(), $endOfMonth->toDateString()])
             ->with('rests')
             ->orderBy('date', 'asc')
-            ->get();
+            ->get()
+            ->keyBy('date');
+
 
         foreach ($attendances as $attendance) {
             //休憩を複数回取った場合、合計時間を表示する
@@ -198,7 +206,7 @@ class AttendanceController extends Controller
         $previousMonth = $startOfMonth->copy()->subMonth()->format('Y-m');
         $nextMonth = $startOfMonth->copy()->addMonth()->format('Y-m');
 
-        return view('attendance.list', compact('attendances', 'currentMonth', 'previousMonth', 'nextMonth'));
+        return view('attendance.list', compact( 'attendances', 'currentMonth', 'previousMonth', 'nextMonth', 'daysInMonth'));
     }
 
     //勤怠詳細画面を表示する
@@ -210,8 +218,5 @@ class AttendanceController extends Controller
     }
 
     //勤怠詳細画面で、勤務内容を修正する
-    public function updateDetail($id)
-    {
-
-    }
+    public function updateDetail($id) {}
 }

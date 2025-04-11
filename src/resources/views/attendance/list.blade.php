@@ -27,9 +27,15 @@
         <th>詳細</th>
     </tr>
 
-    @foreach($attendances as $attendance)
+    @foreach($daysInMonth as $day)
+    @php
+    $dateStr = $day->toDateString();
+    $attendance = $attendances->get($dateStr);
+    @endphp
     <tr>
-        <td>{{ \Carbon\Carbon::parse($attendance->date)->locale('ja')->isoformat('MM月DD日（ddd）') }}</td>
+        <td>{{ $day->locale('ja')->isoFormat('MM月DD日（ddd）') }}</td>
+
+        @if($attendance)
         <td>{{ \Carbon\Carbon::parse($attendance->start_work)->format('H:i') }}</td>
         <td>{{ \Carbon\Carbon::parse($attendance->finish_work)->format('H:i') }}</td>
         <td>
@@ -51,7 +57,9 @@
         <td>
             <a href="{{ route('attendance.detail', ['id' => $attendance->id]) }}">詳細</a>
         </td>
-
+        @else
+        <td colspan="5"></td>
+        @endif
     </tr>
     @endforeach
 </table>

@@ -45,32 +45,30 @@ Route::get('admin/login', [UserController::class, 'adminLogin']);
 //管理者ログイン画面で、ログインする
 Route::post('admin/login', [UserController::class, 'adminStartLogin']);
 
-//ログイン後、勤務状態を取得して出勤登録画面を表示する
-Route::get('/attendance', [AttendanceController::class, 'showEntry'])
-    ->middleware('auth');
 
-//出勤登録画面で、出勤時刻を記録する
-Route::post('/attendance', [AttendanceController::class, 'startWork'])->name('attendance')
-    ->middleware('auth');
+Route::middleware('auth')->group(function () {
 
-//出勤登録画面で、休憩開始時刻を記録する
-Route::post('/attendance/rest', [AttendanceController::class, 'startRest'])->name('attendance.rest')
-    ->middleware('auth');
+    //ログイン後、勤務状態を取得して出勤登録画面を表示する
+    Route::get('/attendance', [AttendanceController::class, 'showEntry']);
 
-//出勤登録画面で、退勤時刻を記録する
-Route::post('/attendance/finishwork', [AttendanceController::class, 'finishWork'])->name('attendance.finishwork')
-    ->middleware('auth');
+    //出勤登録画面で、出勤時刻を記録する
+    Route::post('/attendance', [AttendanceController::class, 'startWork'])->name('attendance');
 
-//出勤登録画面で、休憩終了時刻を記録する
-Route::post('/attendance/finishrest', [AttendanceController::class, 'finishRest'])->name('attendance.finishrest')
-    ->middleware('auth');
+    //出勤登録画面で、休憩開始時刻を記録する
+    Route::post('/attendance/rest', [AttendanceController::class, 'startRest'])->name('attendance.rest');
 
-//勤怠一覧画面を表示する
-Route::get('/attendance/list', [AttendanceController::class, 'showList'])->name('attendance.list')
-    ->middleware('auth');
+    //出勤登録画面で、退勤時刻を記録する
+    Route::post('/attendance/finishwork', [AttendanceController::class, 'finishWork'])->name('attendance.finishwork');
 
-//勤怠詳細画面を表示する
-Route::get('/attendance/{id}', [AttendanceController::class, 'showDetail'])->name('attendance.detail');
+    //出勤登録画面で、休憩終了時刻を記録する
+    Route::post('/attendance/finishrest', [AttendanceController::class, 'finishRest'])->name('attendance.finishrest');
 
-//勤怠詳細画面で、勤務内容を修正する
-Route::post('/attendance/{id}/update', [AttendanceController::class, 'updateDetail'])->name('attendance.update');
+    //勤怠一覧画面を表示する
+    Route::get('/attendance/list', [AttendanceController::class, 'showList'])->name('attendance.list');
+
+    //勤怠詳細画面を表示する
+    Route::get('/attendance/{id}', [AttendanceController::class, 'showDetail'])->name('attendance.detail');
+
+    //勤怠詳細画面で、勤務内容を修正する
+    Route::post('/attendance/{id}/update', [AttendanceController::class, 'updateDetail'])->name('attendance.update');
+});

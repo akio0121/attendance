@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRequestRequestRestsTable extends Migration
+class CreateRequestRestsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateRequestRequestRestsTable extends Migration
      */
     public function up()
     {
-        Schema::create('request_request_rests', function (Blueprint $table) {
+        Schema::create('request_rests', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
         });
@@ -26,6 +26,6 @@ class CreateRequestRequestRestsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('request_request_rests');
+        Schema::dropIfExists('request_rests');
     }
 }

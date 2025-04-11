@@ -71,3 +71,6 @@ Route::get('/attendance/list', [AttendanceController::class, 'showList'])->name(
 
 //勤怠詳細画面を表示する
 Route::get('/attendance/{id}', [AttendanceController::class, 'showDetail'])->name('attendance.detail');
+
+//勤怠詳細画面で、勤務内容を修正する
+Route::post('/attendance/{id}/update', [AttendanceController::class, 'updateDetail'])->name('attendance.update');

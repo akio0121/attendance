@@ -123,6 +123,12 @@ class AttendanceController extends Controller
 
         if ($attendance && is_null($attendance->finish_work)) {
             $attendance->finish_work = Carbon::now()->toTimeString();
+
+            // 勤務時間（分）を算出し、total_work に保存
+            $start = Carbon::parse($attendance->start_work);
+            $finish = Carbon::parse($attendance->finish_work);
+            $totalMinutes = $start->diffInMinutes($finish);
+            $attendance->total_work = $totalMinutes;
             $attendance->save();
 
             return view('attendance.finish_work', compact('attendance'));
@@ -146,6 +152,12 @@ class AttendanceController extends Controller
 
             if ($rest) {
                 $rest->finish_rest = Carbon::now()->toTimeString();
+                // start_rest から finish_rest までの時間差（分単位）を計算
+                $startRest = Carbon::parse($rest->start_rest);
+                $finishRest = Carbon::parse($rest->finish_rest);
+                $totalRestMinutes = $startRest->diffInMinutes($finishRest);
+
+                $rest->total_rest = $totalRestMinutes;
                 $rest->save();
             }
         }
@@ -195,5 +207,11 @@ class AttendanceController extends Controller
         $user = Auth::user();
         $attendance = Attendance::with('rests')->findOrFail($id);
         return view('attendance.detail', compact('user', 'attendance'));
+    }
+
+    //勤怠詳細画面で、勤務内容を修正する
+    public function updateDetail($id)
+    {
+
     }
 }

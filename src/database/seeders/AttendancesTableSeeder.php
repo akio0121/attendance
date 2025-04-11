@@ -319,5 +319,59 @@ class AttendancesTableSeeder extends Seeder
             'total_work' => 300
         ];
         DB::table('attendances')->insert($param);
+
+        $param = [
+            'user_id' => 3,
+            'date' => '2025-04-02',
+            'start_work' => '09:00:00',
+            'finish_work' => '17:00:00',
+            'total_work' => 480
+        ];
+        DB::table('attendances')->insert($param);
+
+        $param = [
+            'user_id' => 3,
+            'date' => '2025-04-03',
+            'start_work' => '10:00:00',
+            'finish_work' => '18:00:00',
+            'total_work' => 480
+        ];
+        DB::table('attendances')->insert($param);
+
+        $param = [
+            'user_id' => 3,
+            'date' => '2025-04-04',
+            'start_work' => '11:00:00',
+            'finish_work' => '19:00:00',
+            'total_work' => 480
+        ];
+        DB::table('attendances')->insert($param);
+
+        $param = [
+            'user_id' => 4,
+            'date' => '2025-04-03',
+            'start_work' => '12:00:00',
+            'finish_work' => '20:00:00',
+            'total_work' => 480
+        ];
+        DB::table('attendances')->insert($param);
+
+        $param = [
+            'user_id' => 4,
+            'date' => '2025-04-04',
+            'start_work' => '13:00:00',
+            'finish_work' => '21:00:00',
+            'total_work' => 480
+        ];
+        DB::table('attendances')->insert($param);
+
+        $param = [
+            'user_id' => 4,
+            'date' => '2025-04-05',
+            'start_work' => '14:00:00',
+            'finish_work' => '22:00:00',
+            'total_work' => 480
+        ];
+        DB::table('attendances')->insert($param);
     }
 }

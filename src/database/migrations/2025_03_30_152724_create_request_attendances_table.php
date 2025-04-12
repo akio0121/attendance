@@ -15,6 +15,10 @@ class CreateRequestAttendancesTable extends Migration
     {
         Schema::create('request_attendances', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('attendance_id');
+            $table->time('wait_start_work')->nullable();
+            $table->time('wait_finish_work')->nullable();
+            $table->text('notes');
             $table->timestamps();
         });
     }

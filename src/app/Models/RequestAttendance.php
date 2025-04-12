@@ -22,4 +22,23 @@ use Illuminate\Database\Eloquent\Model;
 class RequestAttendance extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'attendance_id',
+        'wait_start_work',
+        'wait_finish_work',
+        'notes',
+
+    ];
+
+    public function attendance()
+    {
+        return $this->belongsTo(Attendance::class);
+    }
+
+    public function requestRests()
+    {
+        return $this->hasMany(RequestRest::class);
+    }
+
 }

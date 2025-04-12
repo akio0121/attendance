@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Attendance;
 use App\Models\Rest;
+use App\Models\RequestAttendance;
+use App\Models\RequestRest;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
@@ -206,7 +208,7 @@ class AttendanceController extends Controller
         $previousMonth = $startOfMonth->copy()->subMonth()->format('Y-m');
         $nextMonth = $startOfMonth->copy()->addMonth()->format('Y-m');
 
-        return view('attendance.list', compact( 'attendances', 'currentMonth', 'previousMonth', 'nextMonth', 'daysInMonth'));
+        return view('attendance.list', compact('attendances', 'currentMonth', 'previousMonth', 'nextMonth', 'daysInMonth'));
     }
 
     //勤怠詳細画面を表示する
@@ -218,5 +220,37 @@ class AttendanceController extends Controller
     }
 
     //勤怠詳細画面で、勤務内容を修正する
-    public function updateDetail($id) {}
+    public function updateDetail(Request $request, $attendanceId)
+    {
+        //該当の勤怠データ取得
+        $attendance = Attendance::findOrFail($attendanceId);
+
+        //勤務時間の修正リクエストを保存
+        //request_attendance の取得または新規作成
+        $requestAttendance = $attendance->requestAttendance;
+        if (!$requestAttendance) {
+            $requestAttendance = new RequestAttendance();
+            $requestAttendance->attendance_id = $attendance->id;
+        }
+
+        // フォームから送られてきたstart_workを、wait_start_workに保存
+        $requestAttendance->wait_start_work = $request->input('start_work');
+        $requestAttendance->wait_finish_work = $request->input('finish_work');
+        $requestAttendance->notes = $request->input('notes');
+        $requestAttendance->save();
+
+        // フォームから送られてきた休憩データを取得
+        $rests = $request->input('rests', []);
+
+        foreach ($rests as $restData) {
+            // 値が存在する場合のみ保存
+            if (!empty($restData['start_rest']) && !empty($restData['finish_rest'])) {
+                $requestRest = new RequestRest();
+                $requestRest->request_attendance_id = $requestAttendance->id;
+                $requestRest->wait_start_rest = $restData['start_rest'];
+                $requestRest->wait_finish_rest = $restData['finish_rest'];
+                $requestRest->save();
+            }
+        }
+    }
 }

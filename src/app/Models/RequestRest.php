@@ -16,4 +16,16 @@ use Illuminate\Database\Eloquent\Model;
 class RequestRest extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'request_attendance_id',
+        'wait_start_rest',
+        'wait_finish_rest',
+
+    ];
+
+    public function requestAttendance()
+    {
+        return $this->belongsTo(RequestAttendance::class);
+    }
 }

@@ -21,13 +21,21 @@
             <input type="time" name="finish_work" value="{{ old('finish_work', $attendance->finish_work) }}" required>
         </div>
         <div>
-            @foreach ($attendance->rests as $rest)
-            休憩{{ $loop->iteration > 1 ? $loop->iteration : '' }}
-            <input type="time" name="start_rest" value="{{ old('start_rest', $rest->start_rest) }}" required>～
-            <input type="time" name="finish_rest" value="{{ old('finish_rest', $rest->finish_rest) }}" required>
+            @foreach ($attendance->rests as $index => $rest)
+            <div class="mb-2">
+                <label>休憩{{ $loop->iteration > 1 ? $loop->iteration : '' }}</label>
+
+                {{-- 休憩IDをhiddenで送信 --}}
+                <input type="hidden" name="rests[{{ $index }}][id]" value="{{ $rest->id }}">
+
+                {{-- 開始時間 --}}
+                <input type="time" name="rests[{{ $index }}][start_rest]" value="{{ old("rests.$index.start_rest", $rest->start_rest) }}" required> ～
+
+                {{-- 終了時間 --}}
+                <input type="time" name="rests[{{ $index }}][finish_rest]" value="{{ old("rests.$index.finish_rest", $rest->finish_rest) }}" required>
+            </div>
             @endforeach
         </div>
-
         @php
         $nextNumber = $attendance->rests->count() + 1;
         @endphp
@@ -37,6 +45,13 @@
             <input type="time" name="rests[new][start_rest]" value="{{ old('rests.new.start_rest') }}">～
             <input type="time" name="rests[new][finish_rest]" value="{{ old('rests.new.finish_rest') }}">
         </div>
+
+        <div>
+            <label>備考</label>
+            <textarea name="notes" value="{{ old('notes')}}"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">修正</button>
     </form>
 </div>
 @endsection

@@ -51,6 +51,11 @@ class Attendance extends Model
         return $this->hasMany(Rest::class, 'attendance_id', 'id');
     }
 
+    public function requestAttendance()
+    {
+        return $this->hasOne(RequestAttendance::class);
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);

@@ -22,4 +22,9 @@ use Illuminate\Database\Eloquent\Model;
 class Request extends Model
 {
     use HasFactory;
+
+    public function attendance()
+    {
+        return $this->belongsTo(Attendance::class);
+    }
 }

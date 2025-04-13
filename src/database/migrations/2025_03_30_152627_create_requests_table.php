@@ -15,6 +15,9 @@ class CreateRequestsTable extends Migration
     {
         Schema::create('requests', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('attendance_id');
+            $table->time('request_time');
+            $table->boolean('request_flg');
             $table->timestamps();
         });
     }

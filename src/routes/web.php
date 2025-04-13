@@ -34,7 +34,7 @@ Route::post('/logout', function () {
 });
 
 //ログイン画面を表示する
-Route::get('/login', [UserController::class, 'login']);
+Route::get('/login', [UserController::class, 'login'])->name('login');
 
 //ログイン画面でログインする
 Route::post('/login', [UserController::class, 'startLogin']);

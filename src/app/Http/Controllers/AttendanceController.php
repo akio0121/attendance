@@ -9,6 +9,7 @@ use App\Models\RequestAttendance;
 use App\Models\RequestRest;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\AttendanceRequest;
 
 
 class AttendanceController extends Controller
@@ -220,7 +221,7 @@ class AttendanceController extends Controller
     }
 
     //勤怠詳細画面で、勤務内容を修正する
-    public function updateDetail(Request $request, $attendanceId)
+    public function updateDetail(AttendanceRequest $request, $attendanceId)
     {
         //該当の勤怠データ取得
         $attendance = Attendance::findOrFail($attendanceId);
@@ -252,5 +253,6 @@ class AttendanceController extends Controller
                 $requestRest->save();
             }
         }
+        return redirect('attendance/list');
     }
 }

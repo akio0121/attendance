@@ -60,6 +60,10 @@ class Attendance extends Model
     {
         return $this->belongsTo(User::class);
     }
-    
+
+    public function request()
+    {
+        return $this->hasOne(Request::class);
+    }
 }
 

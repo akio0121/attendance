@@ -31,6 +31,8 @@ use App\Models\Rest;
  * @method static \Illuminate\Database\Eloquent\Builder|Attendance whereTotalWork($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Attendance whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Attendance whereUserId($value)
+ * @property-read \App\Models\RequestAttendance|null $requestAttendance
+ * @property-read \App\Models\WorkRequest|null $workRequest
  * @mixin \Eloquent
  */
 class Attendance extends Model
@@ -61,9 +63,9 @@ class Attendance extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function request()
+    public function workRequest()
     {
-        return $this->hasOne(Request::class);
+        return $this->hasOne(WorkRequest::class);
     }
 }
 

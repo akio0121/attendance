@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Attendance;
 use App\Models\Rest;
+use App\Models\User;
 use App\Models\RequestAttendance;
 use App\Models\RequestRest;
+use App\Models\WorkRequest;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\AttendanceRequest;
@@ -215,9 +217,19 @@ class AttendanceController extends Controller
     //勤怠詳細画面を表示する
     public function showDetail($id)
     {
-        $user = Auth::user();
-        $attendance = Attendance::with('rests')->findOrFail($id);
-        return view('attendance.detail', compact('user', 'attendance'));
+        //$user = Auth::user();
+        //$attendance = Attendance::with(['rests', 'workRequest.requestRests'])->findOrFail($id);
+        $attendance = Attendance::with(['user', 'rests', 'workRequest.requestRests'])->findOrFail($id);
+
+        //勤怠を修正申請中の場合
+        if ($attendance->workRequest && $attendance->workRequest->request_flg === 0) {
+            //return view('attendance.request_detail', compact('user', 'attendance'));
+            return view('attendance.request_detail', compact('attendance'));
+        }
+
+        //勤怠を修正申請中ではない場合
+        //return view('attendance.detail', compact('user', 'attendance'));
+        return view('attendance.detail', compact('attendance'));
     }
 
     //勤怠詳細画面で、勤務内容を修正する
@@ -253,6 +265,35 @@ class AttendanceController extends Controller
                 $requestRest->save();
             }
         }
+        //work_requestsテーブルに申請日時、申請フラグ等を保存する
+        $workRequest = $attendance->request;
+        if (!$workRequest) {
+            $workRequest = new WorkRequest();
+            $workRequest->attendance_id = $attendance->id;
+            $workRequest->request_date = Carbon::now();
+            $workRequest->request_flg = 0;
+            $workRequest->save();
+        }
         return redirect('attendance/list');
+    }
+
+    //勤怠一覧画面(管理者)を表示する
+    public function adminShowList(Request $request)
+    {
+        $date = $request->query('date', Carbon::now()->format('Y-m-d'));
+
+        //管理者以外のユーザーidを取り出して、配列化する
+        $userIds = User::where('admin_flg', 0)->pluck('id');
+
+        $attendances = Attendance::whereIn('user_id', $userIds)
+            ->whereDate('date', $date)
+            ->with(['user', 'rests'])
+            ->get();
+
+        $previousDate = Carbon::parse($date)->subDay()->format('Y-m-d');
+        $nextDate = Carbon::parse($date)->addDay()->format('Y-m-d');
+
+
+        return view('attendance.admin_list', compact('attendances', 'date', 'previousDate', 'nextDate'));
     }
 }

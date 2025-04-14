@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\StampController;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -45,6 +46,8 @@ Route::get('admin/login', [UserController::class, 'adminLogin']);
 //管理者ログイン画面で、ログインする
 Route::post('admin/login', [UserController::class, 'adminStartLogin']);
 
+//勤怠一覧画面(管理者)を表示する
+Route::get('/admin/attendance/list', [AttendanceController::class, 'adminShowList'])->middleware(['auth', 'is_admin'])->name('admin.attendance.list');
 
 Route::middleware('auth')->group(function () {
 
@@ -71,4 +74,7 @@ Route::middleware('auth')->group(function () {
 
     //勤怠詳細画面で、勤務内容を修正する
     Route::post('/attendance/{id}/update', [AttendanceController::class, 'updateDetail'])->name('attendance.update');
+
+    //申請一覧画面を表示する
+    Route::get('/stamp_correction_request/list', [StampController::class, 'showRequest']);
 });

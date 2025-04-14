@@ -9,7 +9,8 @@
     <h2>勤怠詳細</h2>
 
     <label>名前</label>
-    <p>{{ $user->name }}</p>
+    {{-- <p>{{ $user->name }}</p> --}}
+    <p>{{ $attendance->user->name }}</p>
     <label>日付</label>
     <p>{{ \Carbon\Carbon::parse($attendance->date)->format('Y年n月j日') }}</p>
 

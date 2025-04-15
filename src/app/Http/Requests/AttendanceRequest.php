@@ -27,25 +27,42 @@ class AttendanceRequest extends FormRequest
         return [
             'start_work' => 'required',
             'finish_work' => 'required',
-            'rests.*.start_rest' => 'required',
-            'rests.*.finish_rest' => ['required', 'after:rests.*.start_rest'],
+            'rests.*.start_rest' => ['required', 'after:start_work'],
+            'rests.*.finish_rest' => ['required', 'after:rests.*.start_rest', 'after:start_work'],
             'notes' => 'required',
-            'rests.new.start_rest' => ['nullable', 'required_with:rests.new.finish_rest', 'date_format:H:i'],
-            'rests.new.finish_rest' => ['nullable', 'required_with:rests.new.start_rest', 'date_format:H:i', 'after:rests.new.start_rest'],
+            'rests.new.start_rest' => ['nullable', 'required_with:rests.new.finish_rest', 'date_format:H:i', 'after:start_work'],
+            'rests.new.finish_rest' => ['nullable', 'required_with:rests.new.start_rest', 'date_format:H:i', 'after:rests.new.start_rest', 'after:start_work'],
         ];
     }
 
     public function messages()
     {
         return [
+            //出勤時間が空白
             'start_work.required' => '出勤時間を入力してください',
+            //退勤時間が空白
             'finish_work.required' => '退勤時間を入力してください',
+            //休憩開始時間が空白
             'rests.*.start_rest.required' => '休憩開始時間を入力してください',
+            //休憩開始時間が勤務開始時間より前
+            'rests.*.start_rest.after' => '出勤時間もしくは退勤時間が不適切な値です',
+            //休憩終了時間が空白
             'rests.*.finish_rest.required' => '休憩終了時間を入力してください',
+            //休憩終了時間が勤務開始時間より前
             'rests.*.finish_rest.after' => '出勤時間もしくは退勤時間が不適切な値です',
+            //休憩終了時間が休憩開始時間より後
+            'rests.*.finish_rest.after' => '出勤時間もしくは退勤時間が不適切な値です',
+            //追加分の休憩開始時間が空白
             'rests.new.start_rest.required_with' => '休憩開始時間を入力してください',
+            //追加分の休憩開始時間が勤務開始時間より前
+            'rests.new.start_rest.after' => '出勤時間もしくは退勤時間が不適切な値です',
+            //追加分の休憩終了時間が空白
             'rests.new.finish_rest.required_with' => '休憩終了時間を入力してください',
+            //追加分の休憩終了時間が勤務開始時間より前
             'rests.new.finish_rest.after' => '出勤時間もしくは退勤時間が不適切な値です',
+            //追加分の休憩終了時間が休憩開始時間より前
+            'rests.new.finish_rest.after' => '出勤時間もしくは退勤時間が不適切な値です',
+            //備考が空白
             'notes.required' => '備考を記入してください',
         ];
     }

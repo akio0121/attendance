@@ -1,4 +1,5 @@
-@extends('layouts.app')
+{{-- @extends('layouts.app') --}}
+@extends('layouts.master')
 
 @section('css')
 <link rel="stylesheet" href="{{ asset('css/detail.css') }}">

@@ -46,8 +46,17 @@ Route::get('admin/login', [UserController::class, 'adminLogin']);
 //管理者ログイン画面で、ログインする
 Route::post('admin/login', [UserController::class, 'adminStartLogin']);
 
-//勤怠一覧画面(管理者)を表示する
-Route::get('/admin/attendance/list', [AttendanceController::class, 'adminShowList'])->middleware(['auth', 'is_admin'])->name('admin.attendance.list');
+Route::middleware(['auth', 'is_admin'])->prefix('admin')->name('admin.')->group(
+    function () {
+
+        //勤怠一覧画面(管理者)を表示する
+        Route::get('/attendance/list', [AttendanceController::class, 'adminShowList'])->name('attendance.list');
+
+        //スタッフ一覧画面(管理者)を表示する
+        Route::get('/staff/list', [AttendanceController::class, 'adminShowStaff'])->name('staff.list');
+    }
+);
+
 
 Route::middleware('auth')->group(function () {
 

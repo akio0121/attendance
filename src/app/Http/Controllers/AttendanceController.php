@@ -173,12 +173,17 @@ class AttendanceController extends Controller
     //勤怠一覧画面を表示する
     public function showList(Request $request)
     {
-        /** @var \App\Models\User $user */
-        //ログインしたユーザーの、attendancesテーブル、restsテーブルのデータを取得する
-        $user = Auth::user();
-        Carbon::setLocale('ja');
-        $attendances = $user->attendances()->with('rests')->get();
+        //$user = Auth::user();
+        $authUser = Auth::user();
+        // 管理者が user_id を指定している場合はそのユーザーを取得、それ以外は自身
+        if ($authUser->admin_flg === 1 && $request->has('user_id')) {
+            $user = User::findOrFail($request->input('user_id'));
+        } else {
+            $user = $authUser;
+        }
+        //$attendances = $user->attendances()->with('rests')->get();
 
+        Carbon::setLocale('ja');
         //現在の月を取得する
         $currentMonth = $request->input('month', Carbon::now()->format('Y-m'));
         //対象月の開始、終了日を取得する
@@ -211,7 +216,7 @@ class AttendanceController extends Controller
         $previousMonth = $startOfMonth->copy()->subMonth()->format('Y-m');
         $nextMonth = $startOfMonth->copy()->addMonth()->format('Y-m');
 
-        return view('attendance.list', compact('attendances', 'currentMonth', 'previousMonth', 'nextMonth', 'daysInMonth'));
+        return view('attendance.list', compact('attendances', 'currentMonth', 'previousMonth', 'nextMonth', 'daysInMonth', 'user'));
     }
 
     //勤怠詳細画面を表示する
@@ -295,5 +300,12 @@ class AttendanceController extends Controller
 
 
         return view('attendance.admin_list', compact('attendances', 'date', 'previousDate', 'nextDate'));
+    }
+
+    //スタッフ一覧画面(管理者)を表示する
+    public function adminShowStaff(Request $request)
+    {
+        $staffs = User::where('admin_flg', 0)->get();
+        return view('attendance.admin_staff', compact('staffs'));
     }
 }

@@ -1,4 +1,5 @@
-@extends('layouts.app')
+{{-- @extends('layouts.app') --}}
+@extends('layouts.master')
 
 @section('css')
 <link rel="stylesheet" href="{{ asset('css/list.css') }}">
@@ -6,16 +7,21 @@
 
 @section('content')
 
+@if(Auth::user()->admin_flg === 1 && isset($user))
+<h2>{{ $user->name }}さんの勤怠</h2>
+@else
 <h2>勤怠一覧</h2>
+@endif
+
 
 <div>
-    <a href="{{ route('attendance.list', ['month' => $previousMonth]) }}">← 前月</a>
+    <a href="{{ route('attendance.list', ['month' => $previousMonth, 'user_id' => $user->id]) }}">← 前月</a>
 
     <span class="font-bold text-lg">
         {{ \Carbon\Carbon::createFromFormat('Y-m', $currentMonth)->format('Y年n月') }}
     </span>
 
-    <a href="{{ route('attendance.list', ['month' => $nextMonth]) }}">翌月 →</a>
+    <a href="{{ route('attendance.list', ['month' => $nextMonth, 'user_id' => $user->id]) }}">翌月 →</a>
 </div>
 <table>
     <tr>

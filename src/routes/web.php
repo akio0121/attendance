@@ -46,6 +46,7 @@ Route::get('admin/login', [UserController::class, 'adminLogin']);
 //管理者ログイン画面で、ログインする
 Route::post('admin/login', [UserController::class, 'adminStartLogin']);
 
+
 Route::middleware(['auth', 'is_admin'])->prefix('admin')->name('admin.')->group(
     function () {
 
@@ -57,6 +58,12 @@ Route::middleware(['auth', 'is_admin'])->prefix('admin')->name('admin.')->group(
 
         //申請一覧画面(管理者)を表示する
         Route::get('/stamp_correction_request/list', [StampController::class, 'showRequest'])->name('stamp_correction_request.list');
+
+        //スタッフ別勤怠一覧画面(管理者)を表示する
+        Route::get('/attendance/staff/{id}', [AttendanceController::class, 'showList'])->name('attendance.staff');
+
+        //修正申請承認画面を表示する
+        Route::get('/stamp_correction_request/approve/{id}', [StampController::class, 'approveRequest'])->name('request_detail');
     }
 );
 

@@ -31,4 +31,14 @@ class StampController extends Controller
             return view('stamp.show_request', compact('attendances'));
         }
     }
+
+    //修正申請承認画面を表示する
+    public function approveRequest($id)
+    {
+        // $id に対応する Attendance レコードを取得
+        $attendance = Attendance::with(['workRequest', 'user', 'requestAttendance'])->findOrFail($id);
+
+        // 承認ページを表示
+        return view('attendance.request_detail', compact('attendance'));
+    }
 }

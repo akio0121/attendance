@@ -34,7 +34,7 @@
         <td>{{ $attendance->requestAttendance->notes}}</td>
         <td>{{ $attendance->workRequest->request_date}}</td>
         <td>
-            <a href="{{ route('attendance.detail', ['id' => $attendance->id]) }}">詳細</a>
+            <a href="{{ route('admin.request_detail', ['id' => $attendance->id]) }}">詳細</a>
         </td>
     </tr>
     @endforeach

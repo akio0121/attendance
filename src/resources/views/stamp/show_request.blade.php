@@ -34,6 +34,7 @@
         <td>
             <a href="{{ route('attendance.detail', ['id' => $attendance->id]) }}">詳細</a>
         </td>
+
     </tr>
     @endforeach
 </table>

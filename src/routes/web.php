@@ -54,6 +54,9 @@ Route::middleware(['auth', 'is_admin'])->prefix('admin')->name('admin.')->group(
 
         //スタッフ一覧画面(管理者)を表示する
         Route::get('/staff/list', [AttendanceController::class, 'adminShowStaff'])->name('staff.list');
+
+        //申請一覧画面(管理者)を表示する
+        Route::get('/stamp_correction_request/list', [StampController::class, 'showRequest'])->name('stamp_correction_request.list');
     }
 );
 

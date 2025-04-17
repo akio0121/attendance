@@ -172,6 +172,7 @@ class AttendanceController extends Controller
 
     //勤怠一覧画面を表示する
     public function showList(Request $request)
+    
     {
         //$user = Auth::user();
         $authUser = Auth::user();
@@ -242,42 +243,89 @@ class AttendanceController extends Controller
     {
         //該当の勤怠データ取得
         $attendance = Attendance::findOrFail($attendanceId);
+        $authUser = Auth::user(); // ログインユーザー取得
 
-        //勤務時間の修正リクエストを保存
-        //request_attendance の取得または新規作成
-        $requestAttendance = $attendance->requestAttendance;
-        if (!$requestAttendance) {
-            $requestAttendance = new RequestAttendance();
-            $requestAttendance->attendance_id = $attendance->id;
-        }
+        // 管理者が修正する場合は、直接attendancesテーブルを上書き
+        if ($authUser->admin_flg === 1) {
+            $attendance->start_work = $request->input('start_work');
+            $attendance->finish_work = $request->input('finish_work');
+            $attendance->notes = $request->input('notes');
 
-        // フォームから送られてきたstart_workを、wait_start_workに保存
-        $requestAttendance->wait_start_work = $request->input('start_work');
-        $requestAttendance->wait_finish_work = $request->input('finish_work');
-        $requestAttendance->notes = $request->input('notes');
-        $requestAttendance->save();
-
-        // フォームから送られてきた休憩データを取得
-        $rests = $request->input('rests', []);
-
-        foreach ($rests as $restData) {
-            // 値が存在する場合のみ保存
-            if (!empty($restData['start_rest']) && !empty($restData['finish_rest'])) {
-                $requestRest = new RequestRest();
-                $requestRest->request_attendance_id = $requestAttendance->id;
-                $requestRest->wait_start_rest = $restData['start_rest'];
-                $requestRest->wait_finish_rest = $restData['finish_rest'];
-                $requestRest->save();
+            // 勤務開始・終了の差分を分単位で計算
+            if ($attendance->start_work && $attendance->finish_work) {
+                $start = Carbon::parse($attendance->start_work);
+                $finish = Carbon::parse($attendance->finish_work);
+                $attendance->total_work = $start->diffInMinutes($finish);
+            } else {
+                $attendance->total_work = 0;
             }
-        }
-        //work_requestsテーブルに申請日時、申請フラグ等を保存する
-        $workRequest = $attendance->request;
-        if (!$workRequest) {
-            $workRequest = new WorkRequest();
-            $workRequest->attendance_id = $attendance->id;
-            $workRequest->request_date = Carbon::now();
-            $workRequest->request_flg = 0;
-            $workRequest->save();
+            $attendance->save();
+
+            $restInputs = $request->input('rests', []);
+
+            // 既存の休憩を取得（昇順に並べておく）
+            $existingRests = $attendance->rests()->orderBy('id')->get();
+
+            foreach ($restInputs as $index => $restData) {
+                // 値がある休憩だけ処理
+                if (!empty($restData['start_rest']) && !empty($restData['finish_rest'])) {
+                    if (isset($existingRests[$index])) {
+                        // 既存の休憩を更新
+                        $rest = $existingRests[$index];
+                    } else {
+                        // 新規追加
+                        $rest = new Rest();
+                        $rest->attendance_id = $attendance->id;
+                    }
+
+                    $rest->start_rest = $restData['start_rest'];
+                    $rest->finish_rest = $restData['finish_rest'];
+
+                    // 休憩時間を分で計算
+                    $startRest = Carbon::parse($rest->start_rest);
+                    $finishRest = Carbon::parse($rest->finish_rest);
+                    $rest->total_rest = $startRest->diffInMinutes($finishRest);
+
+                    $rest->save();
+                }
+            }
+            return redirect('admin/attendance/list');
+        } else {
+            //勤務時間の修正リクエストを保存
+            //request_attendance の取得または新規作成
+            $requestAttendance = $attendance->requestAttendance;
+            if (!$requestAttendance) {
+                $requestAttendance = new RequestAttendance();
+                $requestAttendance->attendance_id = $attendance->id;
+            }
+            // フォームから送られてきたstart_workを、wait_start_workに保存
+            $requestAttendance->wait_start_work = $request->input('start_work');
+            $requestAttendance->wait_finish_work = $request->input('finish_work');
+            $requestAttendance->notes = $request->input('notes');
+            $requestAttendance->save();
+
+            // フォームから送られてきた休憩データを取得
+            $rests = $request->input('rests', []);
+
+            foreach ($rests as $restData) {
+                // 値が存在する場合のみ保存
+                if (!empty($restData['start_rest']) && !empty($restData['finish_rest'])) {
+                    $requestRest = new RequestRest();
+                    $requestRest->request_attendance_id = $requestAttendance->id;
+                    $requestRest->wait_start_rest = $restData['start_rest'];
+                    $requestRest->wait_finish_rest = $restData['finish_rest'];
+                    $requestRest->save();
+                }
+            }
+            //work_requestsテーブルに申請日時、申請フラグ等を保存する
+            $workRequest = $attendance->request;
+            if (!$workRequest) {
+                $workRequest = new WorkRequest();
+                $workRequest->attendance_id = $attendance->id;
+                $workRequest->request_date = Carbon::now();
+                $workRequest->request_flg = 0;
+                $workRequest->save();
+            }
         }
         return redirect('attendance/list');
     }

@@ -1,4 +1,5 @@
-@extends('layouts.app')
+{{-- @extends('layouts.app') --}}
+@extends('layouts.master')
 
 @section('css')
 <link rel="stylesheet" href="{{ asset('css/request_detail.css') }}">
@@ -26,4 +27,6 @@
     </div>
     <p>承認待ちのため修正はできません。</p>
 </div>
+
+
 @endsection

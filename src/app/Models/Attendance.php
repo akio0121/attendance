@@ -45,6 +45,7 @@ class Attendance extends Model
         'start_work',
         'finish_work',
         'total_work',
+        'notes',
 
     ];
 

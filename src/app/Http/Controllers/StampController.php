@@ -13,10 +13,22 @@ class StampController extends Controller
     public function showRequest()
     {
         $user = Auth::user();
-        $attendances = Attendance::with(['workRequest', 'user'])
-            ->whereHas('workRequest')  // workRequest が存在するものだけ取得
-            ->where('user_id', $user->id)
-            ->get();
-        return view('stamp.show_request', compact('attendances'));
+
+        if ($user->admin_flg === 1) {
+            // ログインユーザーが管理者の場合
+            $attendances = Attendance::with(['workRequest', 'user'])
+                ->whereHas('workRequest')  // workRequest が存在するものだけ取得
+                ->get();
+
+            return view('stamp.admin_request', compact('attendances'));
+        } else {
+
+            //ログインユーザーが一般の場合
+            $attendances = Attendance::with(['workRequest', 'user'])
+                ->whereHas('workRequest')  // workRequest が存在するものだけ取得
+                ->where('user_id', $user->id)
+                ->get();
+            return view('stamp.show_request', compact('attendances'));
+        }
     }
 }

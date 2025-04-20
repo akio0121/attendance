@@ -25,7 +25,19 @@
     <div>
         <label>備考</label>{{ $attendance->requestAttendance->notes }}
     </div>
+    @if(Auth::user()->admin_flg == 1)
+    @if(session('status'))
+    <p class="text-success">{{ session('status') }}</p>
+    @else
+    <form method="POST" action="{{ route('admin.approve', ['id' => $attendance->id]) }}">
+        @csrf
+        <button type="submit" class="btn btn-primary">承認</button>
+    </form>
+    @endif
+    @else
     <p>承認待ちのため修正はできません。</p>
+    @endif
+
 </div>
 
 

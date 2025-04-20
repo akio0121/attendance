@@ -47,6 +47,7 @@ Route::get('admin/login', [UserController::class, 'adminLogin']);
 Route::post('admin/login', [UserController::class, 'adminStartLogin']);
 
 
+
 Route::middleware(['auth', 'is_admin'])->prefix('admin')->name('admin.')->group(
     function () {
 
@@ -64,6 +65,9 @@ Route::middleware(['auth', 'is_admin'])->prefix('admin')->name('admin.')->group(
 
         //修正申請承認画面を表示する
         Route::get('/stamp_correction_request/approve/{id}', [StampController::class, 'getRequest'])->name('request_detail');
+
+        //申請一覧画面で、承認待ちor承認済み勤怠の表示を切り替える
+        Route::get('/stamp_correction_request/list', [StampController::class, 'showAdminRequestList'])->name('request.list');
     }
 );
 
@@ -99,4 +103,6 @@ Route::middleware('auth')->group(function () {
 
     //修正申請承認画面(管理者)で、修正申請された勤怠を承認する
     Route::post('/admin/stamp_correction_request/approve/{id}', [StampController::class, 'approveRequest'])->name('admin.approve');
+
+  
 });

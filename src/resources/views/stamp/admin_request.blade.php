@@ -7,6 +7,11 @@
 @section('content')
 <h2>申請一覧</h2>
 
+<div class="mb-3">
+    <a href="{{ route('admin.request.list', ['status' => 'approved']) }}">承認済み</a>
+    <a href="{{ route('admin.request.list', ['status' => 'waiting']) }}">承認待ち</a>
+</div>
+
 <table>
     <tr>
         <th>状態</th>

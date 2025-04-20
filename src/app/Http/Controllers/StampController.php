@@ -10,7 +10,7 @@ use App\Models\Rest;
 use App\Models\RequestRest;
 use App\Models\WorkRequest;
 use Illuminate\Support\Facades\Auth;
-
+use Carbon\Carbon;
 
 class StampController extends Controller
 {
@@ -54,16 +54,20 @@ class StampController extends Controller
             //request_attendancesテーブルを取得
             $requestAttendance = RequestAttendance::with('requestRests')->where('attendance_id', $id)->firstOrFail();
 
+            // start_work と finish_work の差分を計算（分単位）
+            $startWork = Carbon::parse($requestAttendance->wait_start_work);
+            $finishWork = Carbon::parse($requestAttendance->wait_finish_work);
+            $totalWorkMinutes = $finishWork->diffInMinutes($startWork);
             //attendancesテーブルの更新
             $attendance = Attendance::findOrFail($id);
             $attendance->update([
-                'start_work' => $requestAttendance->wait_start_work,
-                'finish_work' => $requestAttendance->wait_finish_work,
+                'start_work' => $startWork,
+                'finish_work' => $finishWork,
                 'notes' => $requestAttendance->notes,
-                //total_work再計算
+                'total_work' => $totalWorkMinutes,
             ]);
 
-            //rests テーブルの更新（既存削除→再登録）
+            //rests テーブルの更新（既存削除＞再登録）
             Rest::where('attendance_id', $id)->delete();
 
             foreach ($requestAttendance->requestRests as $requestRest) {
@@ -72,11 +76,12 @@ class StampController extends Controller
                         'attendance_id' => $id,
                         'start_rest' => $requestRest->wait_start_rest,
                         'finish_rest' => $requestRest->wait_finish_rest,
-                        //total_rest再計算
+                        'total_rest' => Carbon::parse($requestRest->wait_finish_rest)
+                            ->diffInMinutes(Carbon::parse($requestRest->wait_start_rest)),
+
                     ]);
                 }
             }
-
 
             //work_requests テーブルの更新
             $workRequest = WorkRequest::where('attendance_id', $id)->firstOrFail();
@@ -85,4 +90,27 @@ class StampController extends Controller
 
         return redirect()->back()->with('status', '承認済み');
     }
+
+
+    //申請一覧画面(管理者)で、申請データを承認待ちor承認済みに切り替える
+    public function showAdminRequestList(Request $request)
+    {
+        $status = $request->query('status');
+
+        if ($status === 'approved') {
+            $attendances = Attendance::whereHas('workRequest', function ($query) {
+                $query->where('request_flg', 1);
+            })->with('workRequest')->get();
+        } elseif ($status === 'waiting') {
+            $attendances = Attendance::whereHas('workRequest', function ($query) {
+                $query->where('request_flg', 0);
+            })->with('workRequest')->get();
+        } else {
+            $attendances = Attendance::with('workRequest')->get();
+        }
+
+        return view('stamp.admin_request', compact('attendances'));
+    }
+
+    
 }

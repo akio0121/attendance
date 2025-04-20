@@ -28,6 +28,8 @@
     @if(Auth::user()->admin_flg == 1)
     @if(session('status'))
     <p class="text-success">{{ session('status') }}</p>
+    @elseif($attendance->workRequest && $attendance->workRequest->request_flg == 1)
+    <p class="text-success">承認済み</p>
     @else
     <form method="POST" action="{{ route('admin.approve', ['id' => $attendance->id]) }}">
         @csrf

@@ -1,68 +1,87 @@
+/* 共通ヘッダー */
 .header {
     background: #000;
+    width: 100%;
 }
 
 .header__inner {
+    max-width: 1540px;
     margin: 0 auto;
-    padding: 20px 15px;
-    max-width: 1230px;
+    padding: 20px 40px;
 }
 
 .header-utilities {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex-wrap: wrap;
+    /* デフォルトは折り返し可 */
+    width: 100%;
 }
 
-/*.header__logo {
-    color: #fff;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 24px;
-}*/
-
-.header-utilities nav {
-    width: 18%;
+.logo {
+    height: 45px;
+    width: auto;
 }
 
+/* ナビゲーション */
 .header-nav {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-}
-
-.header-nav__item {
-    display: flex;
-    /* ナビゲーションアイテムを横並びに */
-    align-items: center;
-    /* 縦位置を調整 */
-    width: auto;
-    /* 必要な幅を確保 */
+    gap: 32px;
+    white-space: nowrap;
 }
 
 .header-nav__link {
     color: #fff;
     text-decoration: none;
-    display: inline-block;
-    /* 横並びを維持 */
-    writing-mode: horizontal-tb;
-    /* 横書きにする */
+    font-size: 16px;
+    font-weight: bold;
+    padding: 8px 12px;
 }
 
 .header-nav__button {
-    border: none;
-    background: transparent;
+    background: #000;
     color: #fff;
     font-size: 16px;
-    cursor: pointer;
-    display: inline-block;
-    /* ボタンを横並びに */
+    font-weight: bold;
+    border: none;
     padding: 8px 12px;
-    /* 余白を適度に */
-
+    cursor: pointer;
 }
 
-.logo {
-    height: auto;
-    max-width: 100%;
+/* タブレット以下（850px以下） */
+@media screen and (max-width: 850px) {
+    .header__inner {
+        padding: 20px;
+    }
+
+    .header-utilities {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .logo {
+        height: 36px;
+        margin-bottom: 10px;
+    }
+
+    .header-nav {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+        width: 100%;
+    }
+
+    .header-nav__link,
+    .header-nav__button {
+        width: 100%;
+        text-align: left;
+        padding: 10px;
+        font-size: 16px;
+    }
+
+    .form {
+        width: 100%;
+    }
 }

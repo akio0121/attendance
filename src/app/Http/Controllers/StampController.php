@@ -93,6 +93,31 @@ class StampController extends Controller
 
 
     //申請一覧画面(管理者)で、申請データを承認待ちor承認済みに切り替える
+    public function showAdminRequestList(Request $request)
+    {
+        // 'status'のデフォルト値を'waiting'に設定
+        $status = $request->input('status', 'waiting');
+
+        // request_flgが0の場合（承認待ち）
+        if ($status === 'waiting') {
+            $attendances = Attendance::whereHas('workRequest', function ($query) {
+                $query->where('request_flg', 0); // WorkRequestのrequest_flgが0の場合
+            })->get();
+        } elseif ($status === 'approved') {
+            // request_flgが1の場合（承認済み）
+            $attendances = Attendance::whereHas('workRequest', function ($query) {
+                $query->where('request_flg', 1); // WorkRequestのrequest_flgが1の場合
+            })->get();
+        } else {
+            // その他の場合（全てのリクエストを取得）
+            $attendances = Attendance::with('workRequest')->get();
+        }
+
+        // status と attendances をビューに渡す
+        return view('stamp.admin_request', compact('attendances', 'status'));
+    }
+
+
 
 
 

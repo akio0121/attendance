@@ -7,8 +7,14 @@
 @section('content')
 
 <h2>申請一覧</h2>
-
-
+<div class="btn-group" role="group" aria-label="Button group">
+    <a href="{{ route('user.request.list', ['status' => 'waiting']) }}" class="btn btn-primary {{ $status === 'waiting' ? 'active' : '' }}">
+        承認待ち
+    </a>
+    <a href="{{ route('user.request.list', ['status' => 'approved']) }}" class="btn btn-success {{ $status === 'approved' ? 'active' : '' }}">
+        承認済み
+    </a>
+</div>
 <table>
     <tr>
         <th>状態</th>

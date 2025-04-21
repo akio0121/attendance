@@ -117,10 +117,29 @@ class StampController extends Controller
         return view('stamp.admin_request', compact('attendances', 'status'));
     }
 
-
-
-
-
     //申請一覧画面(一般ユーザー)で、承認待ちor承認済み勤怠の表示を切り替える
+    public function showRequestList(Request $request)
+    {
+        // 'status'のデフォルト値を'waiting'に設定
+        $status = $request->input('status', 'waiting');  // 'waiting'がデフォルト
 
+        // 'status'によって表示する勤怠情報を変更
+        if ($status === 'waiting') {
+            // request_flgが0の場合（承認待ち）
+            $attendances = Attendance::whereHas('workRequest', function ($query) {
+                $query->where('request_flg', 0); // WorkRequestのrequest_flgが0の場合
+            })->get();
+        } elseif ($status === 'approved') {
+            // request_flgが1の場合（承認済み）
+            $attendances = Attendance::whereHas('workRequest', function ($query) {
+                $query->where('request_flg', 1); // WorkRequestのrequest_flgが1の場合
+            })->get();
+        } else {
+            // その他の場合（デフォルトで全てのリクエストを取得）
+            $attendances = Attendance::with('workRequest')->get();
+        }
+
+        // status と attendances をビューに渡す
+        return view('stamp.show_request', compact('attendances', 'status'));
+    }
 }

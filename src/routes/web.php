@@ -104,5 +104,5 @@ Route::middleware('auth')->group(function () {
     Route::get('/stamp_correction_request/list', [StampController::class, 'showRequest']);
 
     //申請一覧画面(一般ユーザー)で、承認待ちor承認済み勤怠の表示を切り替える
-
+    Route::get('/stamp_correction_request/list', [StampController::class, 'showRequestList'])->name('user.request.list');
 });

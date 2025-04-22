@@ -121,25 +121,27 @@ class StampController extends Controller
     public function showRequestList(Request $request)
     {
         // 'status'のデフォルト値を'waiting'に設定
-        $status = $request->input('status', 'waiting');  // 'waiting'がデフォルト
+        $status = $request->input('status', 'waiting');  // デフォルトは 'waiting'
+        $user = Auth::user(); // ログインユーザーを取得
 
-        // 'status'によって表示する勤怠情報を変更
+        // 'status'によって表示する勤怠情報を変更（ログインユーザー限定）
         if ($status === 'waiting') {
-            // request_flgが0の場合（承認待ち）
-            $attendances = Attendance::whereHas('workRequest', function ($query) {
-                $query->where('request_flg', 0); // WorkRequestのrequest_flgが0の場合
-            })->get();
+            $attendances = Attendance::where('user_id', $user->id)
+                ->whereHas('workRequest', function ($query) {
+                    $query->where('request_flg', 0);
+                })->with('workRequest')->get();
         } elseif ($status === 'approved') {
-            // request_flgが1の場合（承認済み）
-            $attendances = Attendance::whereHas('workRequest', function ($query) {
-                $query->where('request_flg', 1); // WorkRequestのrequest_flgが1の場合
-            })->get();
+            $attendances = Attendance::where('user_id', $user->id)
+                ->whereHas('workRequest', function ($query) {
+                    $query->where('request_flg', 1);
+                })->with('workRequest')->get();
         } else {
-            // その他の場合（デフォルトで全てのリクエストを取得）
-            $attendances = Attendance::with('workRequest')->get();
+            // その他の場合はすべて取得（ログインユーザーに限定）
+            $attendances = Attendance::where('user_id', $user->id)
+                ->with('workRequest')->get();
         }
 
-        // status と attendances をビューに渡す
+        // ビューに渡す
         return view('stamp.show_request', compact('attendances', 'status'));
     }
 }

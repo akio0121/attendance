@@ -1,0 +1,117 @@
+body {
+    background-color: #f5f5f5;
+}
+
+/* 全体レイアウト */
+.container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 12px;
+
+}
+
+/* タイトル */
+.request-detail__title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 16px;
+    text-align: left;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 800px;
+    /* .container の max-width と合わせる */
+    padding-left: 20px;
+    /* .container の padding と合わせる */
+    box-sizing: border-box;
+}
+
+/* 各セクション */
+.request-detail__section {
+    width: calc(100% + 40px); /* containerの左右padding 20px × 2 = 40px */
+    margin-left: -20px;
+    margin-right: -20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #e0e0e0;
+    flex-wrap: wrap;
+    padding: 12px 20px;
+    /* 線の内側の余白確保 */
+    box-sizing: border-box;
+}
+
+.request-detail__section:last-of-type {
+    border-bottom: none;
+}
+
+/* ラベル */
+.request-detail__label {
+    font-weight: bold;
+    width: 30%;
+    min-width: 100px;
+}
+
+/* テキスト */
+.request-detail__text {
+    width: 65%;
+    margin: 0;
+    word-break: break-word;
+}
+
+/* 注意文 */
+.request-detail__note {
+    margin-top: 24px;
+    font-size: 14px;
+    color: red;
+    text-align: center;
+}
+
+/* 成功メッセージ */
+.text-success {
+    background-color: #6c757d;
+    color: #fff;
+    font-weight: bold;
+    margin: 16px auto;
+    text-align: center;
+    padding: 8px 12px;
+    border-radius: 6px;
+    display: block;
+    width: fit-content;
+}
+
+/* 承認ボタン */
+.btn-primary {
+    display: block;
+    margin: 20px auto 0;
+    padding: 10px 20px;
+    background-color: #000000;
+    border: none;
+    color: #fff;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #000000;
+}
+
+/* レスポンシブ対応 */
+@media screen and (max-width: 850px) {
+    .request-detail__section {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .request-detail__label,
+    .request-detail__text {
+        width: 100%;
+    }
+
+    .request-detail__title {
+        font-size: 20px;
+    }
+}

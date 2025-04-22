@@ -173,7 +173,7 @@ class AttendanceController extends Controller
     //勤怠一覧画面を表示する
     //public function showList(Request $request)
     public function showList(Request $request, $id = null)
-    
+
     {
         //$user = Auth::user();
         $authUser = Auth::user();
@@ -231,18 +231,14 @@ class AttendanceController extends Controller
     //勤怠詳細画面を表示する
     public function showDetail($id)
     {
-        //$user = Auth::user();
-        //$attendance = Attendance::with(['rests', 'workRequest.requestRests'])->findOrFail($id);
         $attendance = Attendance::with(['user', 'rests', 'workRequest.requestRests'])->findOrFail($id);
 
         //勤怠を修正申請中の場合
         if ($attendance->workRequest && $attendance->workRequest->request_flg === 0) {
-            //return view('attendance.request_detail', compact('user', 'attendance'));
             return view('attendance.request_detail', compact('attendance'));
         }
 
         //勤怠を修正申請中ではない場合
-        //return view('attendance.detail', compact('user', 'attendance'));
         return view('attendance.detail', compact('attendance'));
     }
 

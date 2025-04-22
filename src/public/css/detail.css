@@ -1,0 +1,152 @@
+body {
+    background-color: #f5f5f5;
+}
+
+.admin-request {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.admin-request__title {
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.admin-request__table-wrap {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 12px;
+}
+
+/* 横並び用セクション */
+.admin-request__section {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.admin-request__label {
+    width: 100px;
+    font-weight: bold;
+    padding-top: 8px;
+    flex-shrink: 0;
+}
+
+/* 入力フィールドなど */
+.admin-request__inputs {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+
+    
+}
+
+/* 時刻入力の幅調整 */
+.admin-request__inputs input[type="time"],
+.admin-request__section input[type="time"] {
+    width: 120px;
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+.admin-request__textarea {
+    width: 300px;
+    height: 100px;
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    resize: vertical;
+}
+
+.admin-request__text {
+    padding-top: 8px;
+    font-size: 16px;
+}
+
+/* ～のデザイン */
+.admin-request__tilde {
+    font-size: 16px;
+    line-height: 1;
+}
+
+/* エラー表示 */
+.form__error {
+    color: red;
+    font-size: 13px;
+    margin-top: -5px;
+    margin-bottom: 5px;
+}
+
+.admin-request__section--vertical {
+    display: block;
+}
+
+.admin-request__button-wrap {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.admin-request__button-wrap .btn {
+    background-color: #000000;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.admin-request__button-wrap .btn:hover {
+    background-color: #000000;
+}
+
+/*横の罫線*/
+.admin-request__divider {
+    border: none;
+    border-top: 1px solid #ccc;
+    width: calc(100% + 40px);
+    /* 20px padding x 2 sides */
+    margin: 16px -20px;
+    /* 左右に20px出す */;
+}
+
+/* レスポンシブ */
+@media screen and (max-width: 850px) {
+    .admin-request__title {
+        font-size: 20px;
+    }
+
+    .admin-request__section {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+
+    }
+
+    .admin-request__label {
+        width: 100%;
+        padding-top: 0;
+        margin-bottom: 4px;
+    }
+
+    .admin-request__inputs {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .admin-request__inputs input[type="time"],
+    .admin-request__textarea {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+}

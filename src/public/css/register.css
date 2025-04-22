@@ -58,3 +58,21 @@
     margin-top: 20px;
     text-align: center;
 }
+
+
+
+@media screen and (max-width: 850px) {
+    .form {
+        width: 90%;
+        /* スマホでは画面幅に合わせて広げる */
+    }
+
+    .form__button-submit {
+        width: 100%;
+        /* ボタンも画面に合わせて */
+    }
+
+    .register-form__content {
+        padding: 20px;
+    }
+}

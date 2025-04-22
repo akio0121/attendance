@@ -1,0 +1,106 @@
+body {
+    background-color: #f5f5f5;
+}
+
+.work-page {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 30px 15px;
+    text-align: center;
+}
+
+.work-page__title {
+    font-size: 15px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    background-color: #bab6b6;
+    padding: 10px 20px;
+    border-radius: 20px;
+    display: inline-block;
+}
+
+.work-page__ymd {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.work-page__time {
+    font-size: 48px;
+    font-weight: bold;
+    display: block;
+    margin-top: 10px;
+}
+
+/* ボタンを横並びにする親 */
+.work-page__button-group {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 30px;
+}
+
+/* ボタン共通 */
+.work-page__button,
+.rest-page__button {
+    width: 180px;
+    padding: 14px 40px;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* ボタン個別色 */
+.work-page__button {
+    color: #fff;
+    background-color: #000;
+    border: none;
+}
+
+.work-page__button:hover {
+    background-color: #333;
+}
+
+.rest-page__button {
+    color: #000;
+    background-color: #fff;
+    border: none;
+}
+
+.rest-page__button:hover {
+    background-color: #eee;
+}
+
+.work-page__form,
+.rest-page__form {
+    margin: 0;
+}
+
+/* レスポンシブ：画面幅が850px以下の時 */
+@media screen and (max-width: 850px) {
+    .work-page__title {
+        font-size: 24px;
+    }
+
+    .work-page__ymd {
+        font-size: 16px;
+    }
+
+    .work-page__time {
+        font-size: 36px;
+    }
+
+    .work-page__button,
+    .rest-page__button {
+        width: 100%;
+        font-size: 18px;
+        padding: 16px;
+    }
+
+    .work-page__button-group {
+        flex-direction: column;
+        gap: 16px;
+    }
+}

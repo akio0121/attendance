@@ -1,0 +1,76 @@
+/* 基本レイアウト */
+body {
+    background-color: #f5f5f5;
+}
+
+.entry-page {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 30px 15px;
+    text-align: center;
+}
+
+.entry-page__title {
+    font-size: 15px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    background-color: #bab6b6;
+    /* 明るいグレー */
+    padding: 10px 20px;
+    border-radius: 20px;
+    display: inline-block;
+    /* 背景を文字サイズに合わせる */
+}
+
+.entry-page__ymd {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.entry-page__time {
+    font-size: 48px;
+    font-weight: bold;
+    display: block;
+    margin-top: 10px;
+}
+
+.entry-page__form {
+    margin-top: 30px;
+}
+
+.entry-page__button {
+    padding: 14px 40px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #000;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.entry-page__button:hover {
+    background-color: #333;
+}
+
+/* レスポンシブ対応 */
+@media screen and (max-width: 850px) {
+    .entry-page__title {
+        font-size: 24px;
+    }
+
+    .entry-page__ymd {
+        font-size: 16px;
+    }
+
+    .entry-page__time {
+        font-size: 36px;
+    }
+
+    .entry-page__button {
+        width: 100%;
+        padding: 16px;
+        font-size: 18px;
+    }
+}

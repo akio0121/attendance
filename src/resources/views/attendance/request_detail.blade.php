@@ -33,18 +33,26 @@
         <p class="request-detail__text">{{ $attendance->requestAttendance->notes }}</p>
     </div>
 </div>
-@if(Auth::user()->admin_flg == 1)
+@php
+$isApproved = $attendance->workRequest && $attendance->workRequest->request_flg == 1;
+$isWaiting = $attendance->workRequest && $attendance->workRequest->request_flg == 0;
+$isAdmin = Auth::user()->admin_flg == 1;
+@endphp
+
+@if ($isApproved)
+<p class="text-success">承認済み</p>
+
+@elseif ($isWaiting && $isAdmin)
 @if(session('status'))
 <p class="text-success">{{ session('status') }}</p>
-@elseif($attendance->workRequest && $attendance->workRequest->request_flg == 1)
-<p class="text-success">承認済み</p>
-@else
+@endif
 <form method="POST" action="{{ route('admin.approve', ['id' => $attendance->id]) }}">
     @csrf
     <button type="submit" class="btn btn-primary">承認</button>
 </form>
-@endif
-@else
+
+@elseif ($isWaiting && !$isAdmin)
 <p class="request-detail__note">*承認待ちのため修正はできません。</p>
 @endif
+
 @endsection

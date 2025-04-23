@@ -171,18 +171,10 @@ class AttendanceController extends Controller
     }
 
     //勤怠一覧画面を表示する
-    //public function showList(Request $request)
     public function showList(Request $request, $id = null)
 
     {
-        //$user = Auth::user();
         $authUser = Auth::user();
-        // 管理者が user_id を指定している場合はそのユーザーを取得、それ以外は自身
-        /*if ($authUser->admin_flg === 1 && $request->has('user_id')) {
-            $user = User::findOrFail($request->input('user_id'));
-        } else {
-            $user = $authUser;
-        }*/
         // ルートパラメータ優先（URLが /admin/attendance/staff/{id} の場合）
         if ($authUser->admin_flg === 1 && ($id || $request->has('user_id'))) {
             $userId = $id ?? $request->input('user_id');
@@ -190,7 +182,6 @@ class AttendanceController extends Controller
         } else {
             $user = $authUser;
         }
-        //$attendances = $user->attendances()->with('rests')->get();
 
         Carbon::setLocale('ja');
         //現在の月を取得する
@@ -235,6 +226,11 @@ class AttendanceController extends Controller
 
         //勤怠を修正申請中の場合
         if ($attendance->workRequest && $attendance->workRequest->request_flg === 0) {
+            return view('attendance.request_detail', compact('attendance'));
+        }
+
+        // 勤怠が承認済みの場合
+        if ($attendance->workRequest && $attendance->workRequest->request_flg === 1) {
             return view('attendance.request_detail', compact('attendance'));
         }
 

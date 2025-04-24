@@ -1,0 +1,89 @@
+body {
+    background-color: #f5f5f5;
+}
+
+.attendance-container {
+    background-color: #f5f5f7;
+    padding: 40px;
+    border-radius: 8px;
+    font-family: 'Arial', sans-serif;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.attendance-title {
+    max-width: 1000px;
+    /* テーブルや日付ボックスと幅を揃える */
+    margin: 0 auto 12px auto;
+    /* 中央寄せで下に余白 */
+    padding-left: 0;
+    /* 左詰めに */
+    font-size: 20px;
+    font-weight: bold;
+    text-align: left;
+    /* 左寄せ */
+}
+
+.date-navigation {
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 12px 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+    margin: 24px auto;
+    width: 100%;
+    max-width: 1000px;
+}
+
+.nav-button {
+font-weight: bold;
+}
+
+.current-date {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.attendance-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.attendance-table th,
+.attendance-table td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+}
+
+.attendance-table th {
+    background-color: #ffffff;
+    font-weight: bold;
+}
+
+.detail-link {
+    color: #000000;
+    text-decoration: none;
+}
+
+.detail-link:hover {
+    text-decoration: underline;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 850px) {
+    .date-wrapper {
+        flex-direction: column;
+        gap: 6px;
+        text-align: center;
+    }
+
+    .page-title {
+        font-size: 18px;
+    }
+}

@@ -10,7 +10,7 @@
 
     <div class="date-navigation">
         <a class="nav-button" href="{{ route('admin.attendance.list', ['date' => $previousDate]) }}">← 前日</a>
-        <span class="current-date">{{ $date }}</span>
+        <span class="current-date">{{ \Carbon\Carbon::parse($date)->format('Y/m/d') }}</span>
         <a class="nav-button" href="{{ route('admin.attendance.list', ['date' => $nextDate]) }}">翌日 →</a>
     </div>
 

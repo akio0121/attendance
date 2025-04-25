@@ -42,9 +42,9 @@
                         @endif
                     </td>
                     <td>{{ $attendance->user->name }}</td>
-                    <td>{{ $attendance->date }}</td>
+                    <td>{{ \Carbon\Carbon::parse($attendance->date)->format('Y/m/d') }}</td>
                     <td>{{ $attendance->requestAttendance->notes}}</td>
-                    <td>{{ $attendance->workRequest->request_date}}</td>
+                    <td>{{ \Carbon\Carbon::parse($attendance->workRequest->request_date)->format('Y/m/d') }}</td>
                     <td>
                         <a href="{{ route('admin.request_detail', ['id' => $attendance->id]) }}">詳細</a>
                     </td>

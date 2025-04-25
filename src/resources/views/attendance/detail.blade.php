@@ -7,7 +7,7 @@
 @section('content')
 
 <div class="admin-request">
-    <h2 class="admin-request__title">勤怠詳細</h2>
+    <h2 class="admin-request__title">| 勤怠詳細</h2>
 
     <form action="{{ route('attendance.update', $attendance->id) }}" method="POST">
         @csrf

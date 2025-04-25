@@ -9,7 +9,7 @@
     @if(Auth::user()->admin_flg === 1 && isset($user))
     <h2 class="page-title">| {{ $user->name }}さんの勤怠</h2>
     @else
-    <h2 class="page-title">勤怠一覧</h2>
+    <h2 class="page-title">| 勤怠一覧</h2>
     @endif
 
 

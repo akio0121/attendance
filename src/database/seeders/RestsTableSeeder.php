@@ -40,32 +40,32 @@ class RestsTableSeeder extends Seeder
 
         $param = [
             'attendance_id' => 4,
-            'start_rest' => '09:00:00',
-            'finish_rest' => '09:30:00',
+            'start_rest' => '13:00:00',
+            'finish_rest' => '13:30:00',
             'total_rest' => 30
         ];
         DB::table('rests')->insert($param);
 
         $param = [
             'attendance_id' => 5,
-            'start_rest' => '10:00:00',
-            'finish_rest' => '11:15:00',
+            'start_rest' => '14:00:00',
+            'finish_rest' => '15:15:00',
             'total_rest' => 75
         ];
         DB::table('rests')->insert($param);
 
         $param = [
             'attendance_id' => 6,
-            'start_rest' => '11:00:00',
-            'finish_rest' => '12:00:00',
+            'start_rest' => '15:00:00',
+            'finish_rest' => '16:00:00',
             'total_rest' => 60
         ];
         DB::table('rests')->insert($param);
 
         $param = [
             'attendance_id' => 7,
-            'start_rest' => '12:00:00',
-            'finish_rest' => '13:00:00',
+            'start_rest' => '16:00:00',
+            'finish_rest' => '17:00:00',
             'total_rest' => 60
         ];
         DB::table('rests')->insert($param);

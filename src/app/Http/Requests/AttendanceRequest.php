@@ -45,13 +45,13 @@ class AttendanceRequest extends FormRequest
             //休憩開始時間が空白
             'rests.*.start_rest.required' => '休憩開始時間を入力してください',
             //休憩開始時間が勤務開始時間より前
-            'rests.*.start_rest.after' => '出勤時間もしくは退勤時間が不適切な値です',
+            'rests.*.start_rest.after' => '休憩時間が勤務時間外です',
             //休憩終了時間が空白
             'rests.*.finish_rest.required' => '休憩終了時間を入力してください',
             //休憩終了時間が勤務開始時間より前
-            'rests.*.finish_rest.after' => '出勤時間もしくは退勤時間が不適切な値です',
+            'rests.*.finish_rest.after' => '休憩時間が勤務時間外です',
             //休憩終了時間が休憩開始時間より後
-            'rests.*.finish_rest.after' => '出勤時間もしくは退勤時間が不適切な値です',
+            'rests.*.finish_rest.after' => '休憩時間が勤務時間外です',
             //追加分の休憩開始時間が空白
             'rests.new.start_rest.required_with' => '休憩開始時間を入力してください',
             //追加分の休憩開始時間が勤務開始時間より前
@@ -89,17 +89,17 @@ class AttendanceRequest extends FormRequest
 
             // 出勤・退勤の前後関係チェック
             if ($start && $finish && $start > $finish) {
-                $validator->errors()->add('start_work', '出勤時間もしくは退勤時間が不適切な値です');
+                $validator->errors()->add('start_work', '休憩時間が勤務時間外です');
             }
 
             if ($finish) {
                 // 既存の休憩（rests[*]）をチェック
                 foreach ($this->input('rests', []) as $index => $rest) {
                     if (!empty($rest['start_rest']) && $rest['start_rest'] > $finish) {
-                        $validator->errors()->add("rests.$index.start_rest", "出勤時間もしくは退勤時間が不適切な値です");
+                        $validator->errors()->add("rests.$index.start_rest", "休憩時間が勤務時間外です");
                     }
                     if (!empty($rest['finish_rest']) && $rest['finish_rest'] > $finish) {
-                        $validator->errors()->add("rests.$index.finish_rest", "出勤時間もしくは退勤時間が不適切な値です");
+                        $validator->errors()->add("rests.$index.finish_rest", "休憩時間が勤務時間外です");
                     }
                 }
 
@@ -107,19 +107,19 @@ class AttendanceRequest extends FormRequest
                 $newRest = $this->input('rests.new', []);
                 if (!empty($newRest['start_rest'])) {
                     if ($newRest['start_rest'] > $finish) {
-                        $validator->errors()->add("rests.new.start_rest", "出勤時間もしくは退勤時間が不適切な値です");
+                        $validator->errors()->add("rests.new.start_rest", "休憩時間が勤務時間外です");
                     }
                     if ($start && $newRest['start_rest'] < $start) {
-                        $validator->errors()->add("rests.new.start_rest", "出勤時間もしくは退勤時間が不適切な値です");
+                        $validator->errors()->add("rests.new.start_rest", "休憩時間が勤務時間外です");
                     }
                 }
 
                 if (!empty($newRest['finish_rest'])) {
                     if ($newRest['finish_rest'] > $finish) {
-                        $validator->errors()->add("rests.new.finish_rest", "出勤時間もしくは退勤時間が不適切な値です");
+                        $validator->errors()->add("rests.new.finish_rest", "休憩時間が勤務時間外です");
                     }
                     if ($start && $newRest['finish_rest'] < $start) {
-                        $validator->errors()->add("rests.new.finish_rest", "出勤時間もしくは退勤時間が不適切な値です");
+                        $validator->errors()->add("rests.new.finish_rest", "休憩時間が勤務時間外です");
                     }
                 }
             }

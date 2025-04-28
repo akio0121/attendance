@@ -50,6 +50,7 @@
                 {{-- 休憩 --}}
                 <div class="admin-request__section--vertical">
                     @foreach ($attendance->rests as $index => $rest)
+
                     <div class="admin-request__section admin-request__row">
                         <label class="admin-request__label">休憩{{ $loop->iteration > 1 ? $loop->iteration : '' }}</label>
                         <div class="admin-request__inputs">

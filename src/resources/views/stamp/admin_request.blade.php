@@ -46,7 +46,7 @@
                     <td>{{ $attendance->requestAttendance->notes}}</td>
                     <td>{{ \Carbon\Carbon::parse($attendance->workRequest->request_date)->format('Y/m/d') }}</td>
                     <td>
-                        <a href="{{ route('admin.request_detail', ['id' => $attendance->id]) }}">詳細</a>
+                        <a href="{{ route('request_detail', ['id' => $attendance->id]) }}">詳細</a>
                     </td>
                 </tr>
                 @endforeach

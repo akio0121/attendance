@@ -47,7 +47,7 @@ Route::get('admin/login', [UserController::class, 'adminLogin']);
 Route::post('admin/login', [UserController::class, 'adminStartLogin']);
 
 //修正申請承認画面を表示する
-Route::middleware(['auth', 'is_admin'])->get('/stamp_correction_request/approve/{id}', [StampController::class, 'getRequest'])->name('request_detail');
+Route::get('/stamp_correction_request/approve/{id}', [StampController::class, 'getRequest'])->name('request_detail');
 
 
 Route::middleware(['auth', 'is_admin'])->prefix('admin')->name('admin.')->group(

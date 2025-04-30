@@ -1,0 +1,12 @@
+HELO:<[127.0.0.1]>
+FROM:<noreply@example.com>
+TO:<test@example.com>
+
+Message-ID: <727f189f956d84e759fea5845e63a7b1@swift.generated>
+Date: Wed, 30 Apr 2025 20:46:50 +0900
+From: Laravel <noreply@example.com>
+To: test@example.com
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+

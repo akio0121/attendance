@@ -71,5 +71,12 @@
             @endforeach
         </table>
     </div>
+    @if(Auth::user()->admin_flg === 1 && isset($user))
+    <div class="export-btn-wrapper">
+        <a href="{{ route('admin.export.csv', ['month' => $currentMonth, 'user_id' => $user->id]) }}" class="btn btn-primary export-btn">
+            CSV出力
+        </a>
+    </div>
+    @endif
 </div>
 @endsection

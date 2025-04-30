@@ -12,6 +12,7 @@ use App\Models\WorkRequest;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\AttendanceRequest;
+use Illuminate\Support\Facades\Response;
 
 
 class AttendanceController extends Controller
@@ -355,5 +356,122 @@ class AttendanceController extends Controller
     {
         $staffs = User::where('admin_flg', 0)->get();
         return view('attendance.admin_staff', compact('staffs'));
+    }
+
+    //スタッフ別勤怠一覧画面(管理者)で、月次勤怠をcsv出力する
+    public function export(Request $request)
+    {
+        $month = $request->input('month');
+        $userId = $request->input('user_id');
+
+        $startOfMonth = Carbon::parse($month)->startOfMonth();
+        $endOfMonth = Carbon::parse($month)->endOfMonth();
+
+        $attendances = Attendance::with('rests')
+            ->where('user_id', $userId)
+            ->whereBetween('date', [$startOfMonth, $endOfMonth])
+            ->orderBy('date')
+            ->get();
+
+        // CSVデータ生成
+        $csvData = [];
+
+        // ヘッダー（動的に休憩列を作成）
+        $headers = ['日付', '出勤', '退勤'];
+        $headers = array_merge($headers, $this->generateRestHeaders($attendances));
+        $headers[] = '合計休憩時間';
+        $headers[] = '合計勤務時間';
+        $csvData[] = $headers;
+
+        foreach ($attendances as $attendance) {
+            $row = [
+                $attendance->date,
+                $attendance->start_work ? \Carbon\Carbon::parse($attendance->start_work)->format('H:i') : '',
+                $attendance->finish_work ? \Carbon\Carbon::parse($attendance->finish_work)->format('H:i') : '',
+            ];
+
+            // 休憩時間計算
+            $totalRestMinutes = 0;
+            $totalRestTime = '00:00'; // 合計休憩時間用
+
+            foreach ($attendance->rests as $rest) {
+                $startRest = $rest->start_rest ? \Carbon\Carbon::parse($rest->start_rest) : null;
+                $endRest = $rest->finish_rest ? \Carbon\Carbon::parse($rest->finish_rest) : null;
+
+                $row[] = $startRest ? $startRest->format('H:i') : '';
+                $row[] = $endRest ? $endRest->format('H:i') : '';
+
+                // 休憩時間の積算
+                if ($startRest && $endRest) {
+                    $restMinutes = $startRest->diffInMinutes($endRest);
+                    $totalRestMinutes += $restMinutes;
+                }
+            }
+
+            // 休憩が足りない場合、空白で埋める
+            $missingRestColumns = count($this->generateRestHeaders($attendances)) - (count($attendance->rests) * 2);
+            for ($i = 0; $i < $missingRestColumns; $i++) {
+                $row[] = '';
+            }
+
+            // 合計休憩時間のフォーマット
+            $restHours = floor($totalRestMinutes / 60);
+            $restRemainingMinutes = $totalRestMinutes % 60;
+            $totalRestTime = sprintf('%02d:%02d', $restHours, $restRemainingMinutes);
+
+            // 実働時間を計算（退勤 - 出勤 - 休憩）
+            $startWork = $attendance->start_work ? \Carbon\Carbon::parse($attendance->start_work) : null;
+            $endWork = $attendance->finish_work ? \Carbon\Carbon::parse($attendance->finish_work) : null;
+            $netMinutes = 0;
+
+            if ($startWork && $endWork) {
+                $workMinutes = $startWork->diffInMinutes($endWork);
+                $netMinutes = max(0, $workMinutes - $totalRestMinutes);
+            }
+
+            $hours = floor($netMinutes / 60);
+            $minutes = $netMinutes % 60;
+            $totalWorkTime = sprintf('%02d:%02d', $hours, $minutes);
+
+            // 合計休憩時間と実働時間を追加
+            $row[] = $totalRestTime;
+            $row[] = $totalWorkTime;
+
+            $csvData[] = $row;
+        }
+
+        // CSV文字列に変換
+        $output = fopen('php://temp', 'r+');
+        foreach ($csvData as $line) {
+            fputcsv($output, $line);
+        }
+        rewind($output);
+        $csvContent = stream_get_contents($output);
+        fclose($output);
+
+        // レスポンスをCSV形式で返す
+        $filename = "attendance_{$userId}_{$month}.csv";
+        return response($csvContent)
+            ->header('Content-Type', 'text/csv')
+            ->header('Content-Disposition', "attachment; filename={$filename}");
+    }
+
+    /**
+     * 動的に休憩のヘッダーを生成
+     */
+    private function generateRestHeaders($attendances)
+    {
+        $maxRests = 0;
+        foreach ($attendances as $attendance) {
+            $maxRests = max($maxRests, $attendance->rests->count());
+        }
+
+        $restHeaders = [];
+        for ($i = 1; $i <= $maxRests; $i++) {
+            $restHeaders[] = "休憩開始{$i}";
+            $restHeaders[] = "休憩終了{$i}";
+        }
+
+        return $restHeaders;
     }
 }

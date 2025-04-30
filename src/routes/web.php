@@ -71,6 +71,9 @@ Route::middleware(['auth', 'is_admin'])->prefix('admin')->name('admin.')->group(
 
         //修正申請承認画面(管理者)で、修正申請された勤怠を承認する
         Route::post('/admin/stamp_correction_request/approve/{id}', [StampController::class, 'approveRequest'])->name('approve');
+
+        //スタッフ別勤怠一覧画面(管理者)で、月次勤怠をcsv出力する
+        Route::get('/export/csv', [AttendanceController::class, 'export'])->name('export.csv');
     }
 );
 

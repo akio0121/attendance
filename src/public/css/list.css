@@ -9,10 +9,10 @@ body {
 .page-wrapper {
     max-width: 850px;
     width: 100%;
-    /* 幅を100%に */
     margin: 0 auto;
     padding: 0 16px;
     box-sizing: border-box;
+    overflow-x: hidden;
     /* padding含めてmax-widthに収める */
 }
 
@@ -66,6 +66,28 @@ td {
     /* 横線のみ */
     padding: 8px;
     text-align: center;
+}
+.export-btn {
+    background-color: #000;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 3px;
+    transition: background-color 0.3s ease;
+    max-width: 100%;
+    white-space: nowrap;
+}
+
+.export-btn-wrapper {
+    width: 100%;
+    text-align: right;
+    margin-top: 16px;
+    margin-bottom: 20px;
+    overflow-x: auto;
 }
 
 /* レスポンシブ対応 */

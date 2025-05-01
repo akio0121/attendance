@@ -12,6 +12,10 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Laravel\Fortify\Fortify;
+use Illuminate\Auth\Events\Verified;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Redirect;
+
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -30,18 +34,27 @@ class FortifyServiceProvider extends ServiceProvider
     {
         Fortify::createUsersUsing(CreateNewUser::class);
 
-            Fortify::registerView(function () {
-                return view('auth.register');
-            });
+        Fortify::registerView(function () {
+            return view('auth.register');
+        });
 
-            Fortify::loginView(function () {
-                return view('auth.login');
-            });
+        Fortify::loginView(function () {
+            return view('auth.login');
+        });
 
-            RateLimiter::for('login', function (Request $request) {
-                $email = (string) $request->email;
+        RateLimiter::for('login', function (Request $request) {
+            $email = (string) $request->email;
 
-                return Limit::perMinute(10)->by($email . $request->ip());
-            });
+            return Limit::perMinute(10)->by($email . $request->ip());
+        });
+
+        Fortify::verifyEmailView(function () {
+            return view('auth.verify_email');
+        });
+
+
+        // リダイレクト設定
+        Fortify::redirects('login', '/attendance');  // ログイン後のリダイレクト先
+        Fortify::redirects('verification', '/attendance');  // メール認証後のリダイレクト先
     }
 }

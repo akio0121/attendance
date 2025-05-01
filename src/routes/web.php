@@ -5,6 +5,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\StampController;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -111,4 +113,33 @@ Route::middleware('auth')->group(function () {
 
     //申請一覧画面(一般ユーザー)で、承認待ちor承認済み勤怠の表示を切り替える
     Route::get('/stamp_correction_request/list', [StampController::class, 'showRequestList'])->name('user.request.list');
+
+
+    /**
+     * 認証メール確認用の画面表示
+     */
+    Route::get('/email/verify', function () {
+        return view('auth.verify_email');
+    })->middleware('auth')->name('verification.notice');
+
+    /**
+     * 認証メール内のリンクをクリックした後の処理
+     */
+    Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+        $request->fulfill(); // 認証済みにする
+        return redirect('/attendance'); // 認証完了後のリダイレクト先
+    })->middleware(['auth', 'signed'])->name('verification.verify');
+
+    /**
+     * 認証メールの再送信処理
+     */
+    Route::post('/email/verification-notification', function (Request $request) {
+        $request->user()->sendEmailVerificationNotification();
+        return back()->with('message', '確認リンクを再送信しました。');
+    })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+
+
+
+
+
 });

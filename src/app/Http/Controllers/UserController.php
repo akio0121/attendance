@@ -6,6 +6,7 @@ use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\LoginRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Auth\Events\Registered;
 
 class UserController extends Controller
 {
@@ -24,8 +25,13 @@ class UserController extends Controller
         $user->password = bcrypt($request->input('password'));
         $user->admin_flg = 0;
         $user->save();
+
         Auth::login($user);
-        return redirect('/attendance');
+        event(new Registered($user));
+        return redirect('/email/verify');
+
+        /*Auth::login($user);
+        return redirect('/attendance');*/
     }
 
     //ログイン画面を表示する

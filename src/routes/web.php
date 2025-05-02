@@ -42,6 +42,8 @@ Route::get('/login', [UserController::class, 'login'])->name('login');
 //ログイン画面でログインする
 Route::post('/login', [UserController::class, 'startLogin']);
 
+
+
 //管理者ログイン画面を表示する
 Route::get('admin/login', [UserController::class, 'adminLogin']);
 

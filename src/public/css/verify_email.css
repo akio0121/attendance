@@ -1,0 +1,75 @@
+body {
+    background-color: #f5f5f5;
+}
+
+/* コンテナ全体のスタイル */
+.verification-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    /* ビューポートの高さを100%使用 */
+    text-align: center;
+    padding: 20px;
+}
+
+/* メッセージのスタイル */
+.verification-message {
+    margin-bottom: 20px;
+    /* メッセージとボタンの間に余白を追加 */
+    font-weight: bold;
+}
+
+/* ボタンのスタイル */
+.mailhog-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #c6c6c6;
+    color: rgb(0, 0, 0);
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+/* 上下の間隔調整 */
+.mt-4 {
+    margin-top: 20px;
+    /* 上部に20pxの余白を追加 */
+}
+
+/* 画面幅が850px以下の時のレスポンシブ対応 */
+@media (max-width: 850px) {
+    .verification-container {
+        padding: 10px;
+        /* 左右の余白を少し小さくする */
+    }
+
+    .verification-message {
+        font-size: 14px;
+        /* フォントサイズを調整 */
+        margin-bottom: 15px;
+        /* 下の余白を調整 */
+    }
+
+    .mailhog-button {
+        padding: 12px 24px;
+        font-size: 16px;
+        /* フォントサイズを大きく調整 */
+        margin-top: 20px;
+        background-color: #007bff;
+        color: white;
+        text-align: center;
+    }
+
+    .mailhog-button:hover {
+        background-color: #0056b3;
+        /* ホバー時の色変更 */
+    }
+
+    .mt-4 {
+        margin-top: 15px;
+        /* 上部の余白を少し小さく */
+    }
+}

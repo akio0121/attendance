@@ -1,18 +1,18 @@
 HELO:<localhost>
 FROM:<noreply@example.com>
-TO:<ggg@hhh.com>
+TO:<fff@ggg.com>
 
-Message-ID: <ace299b64b45b00d5c84715681bc8f9a@localhost>
-Date: Thu, 01 May 2025 11:07:58 +0900
+Message-ID: <d5afc3f1370579285124843aa7ebaf0e@localhost>
+Date: Fri, 02 May 2025 14:03:48 +0900
 Subject: Verify Email Address
 From: Laravel <noreply@example.com>
-To: ggg@hhh.com
+To: fff@ggg.com
 MIME-Version: 1.0
 Content-Type: multipart/alternative;
- boundary="_=_swift_1746065278_d4d9a021ca4b5cbbb64b1f2de00c78b9_=_"
+ boundary="_=_swift_1746162228_8bcba5c43dd1cbeb530ce213fdb42c2d_=_"
 
 
---_=_swift_1746065278_d4d9a021ca4b5cbbb64b1f2de00c78b9_=_
+--_=_swift_1746162228_8bcba5c43dd1cbeb530ce213fdb42c2d_=_
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
@@ -24,9 +24,9 @@ Please click the button belo=
 w to verify your email address.
 
 Verify Email Address: http://localhost=
-/email/verify/5/605e34ca3a35bf45f6e094e6467a8d2ad482af88?expires=3D17460688=
-78&signature=3D6203aaae73c9dd6fa6c14690af3adf8a790024552820b879608694227a3a=
-b3f6
+/email/verify/6/41a08753078ab3ce59ee6d5bf47e721e5a3b22cf?expires=3D17461658=
+28&signature=3Dcb734c754b4d3361c0ef034a897e57030894c3e57096b097ff739ca6edef=
+0c6b
 
 If you did not create an account, no further action is required.=
 
@@ -37,17 +37,17 @@ Laravel
 If you're having trouble clicking the "Verify=
  Email Address" button, copy and paste the URL below
 into your web browse=
-r: [http://localhost/email/verify/5/605e34ca3a35bf45f6e094e6467a8d2ad482af8=
-8?expires=3D1746068878&signature=3D6203aaae73c9dd6fa6c14690af3adf8a79002455=
-2820b879608694227a3ab3f6](http://localhost/email/verify/5/605e34ca3a35bf45f=
-6e094e6467a8d2ad482af88?expires=3D1746068878&signature=3D6203aaae73c9dd6fa6=
-c14690af3adf8a790024552820b879608694227a3ab3f6)
+r: [http://localhost/email/verify/6/41a08753078ab3ce59ee6d5bf47e721e5a3b22c=
+f?expires=3D1746165828&signature=3Dcb734c754b4d3361c0ef034a897e57030894c3e5=
+7096b097ff739ca6edef0c6b](http://localhost/email/verify/6/41a08753078ab3ce5=
+9ee6d5bf47e721e5a3b22cf?expires=3D1746165828&signature=3Dcb734c754b4d3361c0=
+ef034a897e57030894c3e57096b097ff739ca6edef0c6b)
 
 =C2=A9 2025 Laravel. A=
 ll rights reserved.
 
 
---_=_swift_1746065278_d4d9a021ca4b5cbbb64b1f2de00c78b9_=_
+--_=_swift_1746162228_8bcba5c43dd1cbeb530ce213fdb42c2d_=_
 Content-Type: text/html; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
@@ -195,9 +195,9 @@ izing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe U=
 I', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Em=
 oji', 'Segoe UI Symbol'; position: relative;">
 <a href=3D"http://localhos=
-t/email/verify/5/605e34ca3a35bf45f6e094e6467a8d2ad482af88?expires=3D1746068=
-878&amp;signature=3D6203aaae73c9dd6fa6c14690af3adf8a790024552820b8796086942=
-27a3ab3f6" class=3D"button button-primary" target=3D"_blank" rel=3D"noopene=
+t/email/verify/6/41a08753078ab3ce59ee6d5bf47e721e5a3b22cf?expires=3D1746165=
+828&amp;signature=3Dcb734c754b4d3361c0ef034a897e57030894c3e57096b097ff739ca=
+6edef0c6b" class=3D"button button-primary" target=3D"_blank" rel=3D"noopene=
 r" style=3D"box-sizing: border-box; font-family: -apple-system, BlinkMacSys=
 temFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emo=
 ji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; -webkit-text-=
@@ -247,14 +247,14 @@ into your web browser: <span class=3D"break-all" style=3D"box-sizing: =
 border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Rob=
 oto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', '=
 Segoe UI Symbol'; position: relative; word-break: break-all;"><a href=3D"ht=
-tp://localhost/email/verify/5/605e34ca3a35bf45f6e094e6467a8d2ad482af88?expi=
-res=3D1746068878&amp;signature=3D6203aaae73c9dd6fa6c14690af3adf8a7900245528=
-20b879608694227a3ab3f6" style=3D"box-sizing: border-box; font-family: -appl=
+tp://localhost/email/verify/6/41a08753078ab3ce59ee6d5bf47e721e5a3b22cf?expi=
+res=3D1746165828&amp;signature=3Dcb734c754b4d3361c0ef034a897e57030894c3e570=
+96b097ff739ca6edef0c6b" style=3D"box-sizing: border-box; font-family: -appl=
 e-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-se=
 rif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: re=
-lative; color: #3869d4;">http://localhost/email/verify/5/605e34ca3a35bf45f6=
-e094e6467a8d2ad482af88?expires=3D1746068878&amp;signature=3D6203aaae73c9dd6=
-fa6c14690af3adf8a790024552820b879608694227a3ab3f6</a></span></p>
+lative; color: #3869d4;">http://localhost/email/verify/6/41a08753078ab3ce59=
+ee6d5bf47e721e5a3b22cf?expires=3D1746165828&amp;signature=3Dcb734c754b4d336=
+1c0ef034a897e57030894c3e57096b097ff739ca6edef0c6b</a></span></p>
 
 </td>=
 
@@ -299,4 +299,4 @@ i', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; line-height: 1=
 </body>
 </html>
 
---_=_swift_1746065278_d4d9a021ca4b5cbbb64b1f2de00c78b9_=_--
+--_=_swift_1746162228_8bcba5c43dd1cbeb530ce213fdb42c2d_=_--

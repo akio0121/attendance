@@ -15,22 +15,27 @@ use Laravel\Fortify\Fortify;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Redirect;
-
+use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\LoginRequest;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Hash;
+use Laravel\Fortify\Contracts\LoginResponse as LoginResponseContract;
+use App\Http\Responses\LoginResponse;
 
 class FortifyServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
      */
-    public function register(): void
+    public function register()
     {
-        //
+        $this->app->singleton(LoginResponseContract::class, LoginResponse::class);
     }
 
     /**
      * Bootstrap any application services.
      */
-    public function boot(): void
+    public function boot()
     {
         Fortify::createUsersUsing(CreateNewUser::class);
 
@@ -52,9 +57,10 @@ class FortifyServiceProvider extends ServiceProvider
             return view('auth.verify_email');
         });
 
-
         // リダイレクト設定
         Fortify::redirects('login', '/attendance');  // ログイン後のリダイレクト先
         Fortify::redirects('verification', '/attendance');  // メール認証後のリダイレクト先
+
+
     }
 }

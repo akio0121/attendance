@@ -20,7 +20,8 @@ class UsersTableSeeder extends Seeder
             'name' => '山田太郎',
             'email' => 'aaa@bbb.com',
             'password' => Hash::make('aaaaaaaa'),
-            'admin_flg' => 1
+            'admin_flg' => 1,
+            'email_verified_at' => Carbon::now(),
         ];
         DB::table('users')->insert($param);
 

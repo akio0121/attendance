@@ -41,7 +41,7 @@ class UserController extends Controller
     }
 
     //ログイン画面でログインする
-    public function startLogin(LoginRequest $request)
+    /*public function startLogin(LoginRequest $request)
     {
         if (Auth::attempt($request->only('email', 'password'), false)) {
             $user = Auth::user();
@@ -51,7 +51,33 @@ class UserController extends Controller
                 return redirect('/admin/attendance/list');
             }
         }
+    }*/
+
+    public function startLogin(LoginRequest $request)
+    {
+        // 認証を試みる
+        if (Auth::attempt($request->only('email', 'password'), false)) {
+            $user = Auth::user(); // ログインしたユーザー情報を取得
+
+            // メール認証されていない場合
+            if (is_null($user->email_verified_at)) {
+                return redirect()->route('verification.notice');
+            }
+
+            // メール認証されている場合、管理者か一般ユーザーかでリダイレクト先を決定
+            if ($user->admin_flg == 0) {
+                return redirect('/attendance'); // 一般ユーザー用ページ
+            } else {
+                return redirect('/admin/attendance/list'); // 管理者用ページ
+            }
+        }
+
+        // 認証失敗時のエラーメッセージ
+        return back()->withErrors([
+            'email' => 'メールアドレスまたはパスワードが正しくありません。',
+        ]);
     }
+
 
     //管理者ログイン画面を表示する
     public function adminLogin()

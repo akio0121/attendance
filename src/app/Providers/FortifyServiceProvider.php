@@ -62,5 +62,7 @@ class FortifyServiceProvider extends ServiceProvider
         Fortify::redirects('verification', '/attendance');  // メール認証後のリダイレクト先
 
 
+        
+
     }
 }

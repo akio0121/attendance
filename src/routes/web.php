@@ -37,10 +37,11 @@ Route::post('/logout', function () {
 });
 
 //ログイン画面を表示する
-Route::get('/login', [UserController::class, 'login'])->name('login');
+/*54Route::get('/login', [UserController::class, 'login'])->name('login');*/
+Route::get('/login', fn() => view('auth.login'))->name('login');
 
 //ログイン画面でログインする
-Route::post('/login', [UserController::class, 'startLogin']);
+/*54Route::post('/login', [UserController::class, 'startLogin']);*/
 
 
 

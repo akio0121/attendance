@@ -29,7 +29,7 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(LoginResponseContract::class, LoginResponse::class);
+        //
     }
 
     /**

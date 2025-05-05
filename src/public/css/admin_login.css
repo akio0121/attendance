@@ -16,7 +16,7 @@
 }
 
 .form__group {
-    margin-bottom: 5px;
+    margin-bottom: 20px;
 }
 
 .form__group-title {
@@ -27,6 +27,7 @@
     height: 20px;
     color: #ff0000;
     text-align: left;
+    margin-top: 5px;
 }
 
 .form__input--text input {

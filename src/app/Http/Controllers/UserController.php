@@ -35,14 +35,14 @@ class UserController extends Controller
     }
 
     //ログイン画面を表示する
-    /*54public function login()
+    public function login()
     {
         return view('auth.login');
-    }*/
+    }
 
     //fortifyを使用したログイン処理
 
-    public function login(LoginRequest $request)
+    /*public function login(LoginRequest $request)
     {
         $credentials = $request->only('email', 'password');
 
@@ -55,7 +55,7 @@ class UserController extends Controller
         return back()->withErrors([
             'email' => 'メールアドレスまたはパスワードが正しくありません。',
         ])->withInput();
-    }
+    }*/
 
 
 
@@ -101,6 +101,7 @@ class UserController extends Controller
     //管理者ログイン画面を表示する
     public function adminLogin()
     {
+        Auth::guard('web')->logout();
         return view('auth.admin_login');
     }
 

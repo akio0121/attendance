@@ -1,5 +1,9 @@
 @php
-$layout = Auth::check() && Auth::user()->admin_flg == 1 ? 'layouts.admin_app' : 'layouts.app';
+if (\Illuminate\Support\Facades\Auth::guard('admin')->check()) {
+$layout = 'layouts.admin_app';
+} elseif (\Illuminate\Support\Facades\Auth::guard('web')->check()) {
+$layout = 'layouts.app';
+}
 @endphp
 
 @extends($layout)

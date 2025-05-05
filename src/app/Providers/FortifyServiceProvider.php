@@ -19,8 +19,10 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\LoginRequest;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Hash;
-use Laravel\Fortify\Contracts\LoginResponse as LoginResponseContract;
-use App\Http\Responses\LoginResponse;
+use Laravel\Fortify\Http\Requests\LoginRequest as FortifyLoginRequest;
+use Laravel\Fortify\Contracts\LoginResponse;
+use App\Http\Responses\LoginResponse as CustomLoginResponse;
+
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -61,8 +63,6 @@ class FortifyServiceProvider extends ServiceProvider
         Fortify::redirects('login', '/attendance');  // ログイン後のリダイレクト先
         Fortify::redirects('verification', '/attendance');  // メール認証後のリダイレクト先
 
-
-        
 
     }
 }

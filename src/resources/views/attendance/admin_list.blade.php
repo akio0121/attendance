@@ -34,7 +34,7 @@
 
                 @php
                 $total = $attendance->rests->sum('total_rest'); // 分を合計
-                $hours = str_pad(floor($total / 60), 2, '0', STR_PAD_LEFT);
+                $hours = floor($total / 60);
                 $minutes = str_pad($total % 60, 2, '0', STR_PAD_LEFT);
                 @endphp
 
@@ -43,7 +43,7 @@
                 @php
                 $totalRest = $attendance->rests->sum('total_rest');
                 $realWork = $attendance->total_work - $totalRest;
-                $hours = str_pad(floor($realWork / 60), 2, '0', STR_PAD_LEFT);
+                $hours = floor($realWork / 60);
                 $minutes = str_pad($realWork % 60, 2, '0', STR_PAD_LEFT);
                 @endphp
 

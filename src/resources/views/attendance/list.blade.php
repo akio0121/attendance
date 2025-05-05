@@ -51,7 +51,7 @@
                     $hours = floor($total / 60);
                     $minutes = $total % 60;
                     @endphp
-                    {{ sprintf('%02d:%02d', $hours, $minutes) }}
+                    {{ $hours . ':' . str_pad($minutes, 2, '0', STR_PAD_LEFT) }}
                 </td>
                 <td>
                     @php
@@ -59,7 +59,7 @@
                     $hours = floor($total / 60);
                     $minutes = $total % 60;
                     @endphp
-                    {{ sprintf('%02d:%02d', $hours, $minutes) }}
+                    {{ $hours . ':' . str_pad($minutes, 2, '0', STR_PAD_LEFT) }}
                 </td>
                 <td>
                     <a href="{{ route('attendance.detail', ['id' => $attendance->id]) }}">詳細</a>

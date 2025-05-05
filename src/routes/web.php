@@ -37,16 +37,18 @@ Route::post('/logout', function () {
 });
 
 //ログイン画面を表示する
-/*54Route::get('/login', [UserController::class, 'login'])->name('login');*/
-Route::get('/login', fn() => view('auth.login'))->name('login');
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [UserController::class, 'login'])->name('login');
+});
 
 //ログイン画面でログインする
-/*54Route::post('/login', [UserController::class, 'startLogin']);*/
-
+Route::post('/login', [UserController::class, 'startLogin']);
 
 
 //管理者ログイン画面を表示する
-Route::get('admin/login', [UserController::class, 'adminLogin']);
+Route::middleware('guest:admin')->group(function () {
+    Route::get('admin/login', [UserController::class, 'adminLogin']);
+});
 
 //管理者ログイン画面で、ログインする
 Route::post('admin/login', [UserController::class, 'adminStartLogin']);
@@ -140,9 +142,4 @@ Route::middleware('auth')->group(function () {
         $request->user()->sendEmailVerificationNotification();
         return back()->with('message', '確認リンクを再送信しました。');
     })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
-
-
-
-
-
 });

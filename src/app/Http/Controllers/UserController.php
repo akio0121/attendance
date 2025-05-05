@@ -29,9 +29,6 @@ class UserController extends Controller
         Auth::login($user);
         event(new Registered($user));
         return redirect('/email/verify');
-
-        /*Auth::login($user);
-        return redirect('/attendance');*/
     }
 
     //ログイン画面を表示する
@@ -39,38 +36,6 @@ class UserController extends Controller
     {
         return view('auth.login');
     }
-
-    //fortifyを使用したログイン処理
-
-    /*public function login(LoginRequest $request)
-    {
-        $credentials = $request->only('email', 'password');
-
-        if (Auth::attempt($credentials, $request->boolean('remember'))) {
-            $request->session()->regenerate();
-
-            return redirect()->intended('/attendance'); // 成功後の遷移先
-        }
-
-        return back()->withErrors([
-            'email' => 'メールアドレスまたはパスワードが正しくありません。',
-        ])->withInput();
-    }*/
-
-
-
-    //ログイン画面でログインする
-    /*public function startLogin(LoginRequest $request)
-    {
-        if (Auth::attempt($request->only('email', 'password'), false)) {
-            $user = Auth::user();
-            if ($user->admin_flg == 0) {
-                return redirect('/attendance');
-            } else {
-                return redirect('/admin/attendance/list');
-            }
-        }
-    }*/
 
     public function startLogin(LoginRequest $request)
     {

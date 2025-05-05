@@ -72,9 +72,6 @@ Route::middleware(['auth', 'is_admin'])->prefix('admin')->name('admin.')->group(
         //スタッフ別勤怠一覧画面(管理者)を表示する
         Route::get('/attendance/staff/{id}', [AttendanceController::class, 'showList'])->name('attendance.staff');
 
-        //修正申請承認画面を表示する
-        /*Route::get('/stamp_correction_request/approve/{id}', [StampController::class, 'getRequest'])->name('request_detail');*/
-
         //申請一覧画面(管理者)で、承認待ちor承認済み勤怠の表示を切り替える
         Route::get('/stamp_correction_request/list', [StampController::class, 'showAdminRequestList'])->name('request.list');
 

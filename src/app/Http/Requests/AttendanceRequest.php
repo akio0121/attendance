@@ -54,32 +54,13 @@ class AttendanceRequest extends FormRequest
             'rests.*.finish_rest.after' => '休憩時間が勤務時間外です',
             //追加分の休憩開始時間が空白
             'rests.new.start_rest.required_with' => '休憩開始時間を入力してください',
-            //追加分の休憩開始時間が勤務開始時間より前
-            //'rests.new.start_rest.after' => '出勤時間もしくは退勤時間が不適切な値です',
             //追加分の休憩終了時間が空白
             'rests.new.finish_rest.required_with' => '休憩終了時間を入力してください',
-            //追加分の休憩終了時間が勤務開始時間より前
-            //'rests.new.finish_rest.after' => '出勤時間もしくは退勤時間が不適切な値です',
-            //追加分の休憩終了時間が休憩開始時間より前
-            //'rests.new.finish_rest.after' => '出勤時間もしくは退勤時間が不適切な値です',
             //備考が空白
             'notes.required' => '備考を記入してください',
         ];
     }
 
-    //出勤時間が退勤時間より後の場合、エラーメッセージを表示する
-    /*public function withValidator($validator)
-    {
-        $validator->after(function ($validator) {
-            $start = $this->input('start_work');
-            $finish = $this->input('finish_work');
-
-            // 両方の値があるときだけチェック
-            if ($start && $finish && $start > $finish) {
-                $validator->errors()->add('start_work', '出勤時間もしくは退勤時間が不適切な値です');
-            }
-        });
-    }*/
 
     public function withValidator($validator)
     {

@@ -43,8 +43,12 @@ class StampController extends Controller
         // $id に対応する Attendance レコードを取得
         $attendance = Attendance::with(['workRequest', 'user', 'requestAttendance'])->findOrFail($id);
 
+        // ログインユーザーからレイアウト判定
+        $authUser = Auth::user();
+        $layout = $authUser->admin_flg === 1 ? 'layouts.admin_app' : 'layouts.app';
+
         // 承認ページを表示
-        return view('attendance.request_detail', compact('attendance'));
+        return view('attendance.request_detail', compact('attendance', 'layout'));
     }
 
     //修正申請承認画面(管理者)で、修正申請された勤怠を承認する

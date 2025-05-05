@@ -1,4 +1,5 @@
-@extends('layouts.master')
+{{--@extends('layouts.master')--}}
+@extends($layout)
 
 @section('css')
 <link rel="stylesheet" href="{{ asset('css/list.css') }}">

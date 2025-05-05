@@ -180,8 +180,10 @@ class AttendanceController extends Controller
         if ($authUser->admin_flg === 1 && ($id || $request->has('user_id'))) {
             $userId = $id ?? $request->input('user_id');
             $user = User::findOrFail($userId);
+            $layout = 'layouts.admin_app'; //管理者用ヘッダー
         } else {
             $user = $authUser;
+            $layout = 'layouts.app'; //一般ユーザー用ヘッダー
         }
 
         Carbon::setLocale('ja');
@@ -217,7 +219,7 @@ class AttendanceController extends Controller
         $previousMonth = $startOfMonth->copy()->subMonth()->format('Y-m');
         $nextMonth = $startOfMonth->copy()->addMonth()->format('Y-m');
 
-        return view('attendance.list', compact('attendances', 'currentMonth', 'previousMonth', 'nextMonth', 'daysInMonth', 'user'));
+        return view('attendance.list', compact('attendances', 'currentMonth', 'previousMonth', 'nextMonth', 'daysInMonth', 'user', 'layout'));
     }
 
     //勤怠詳細画面を表示する
@@ -225,18 +227,22 @@ class AttendanceController extends Controller
     {
         $attendance = Attendance::with(['user', 'rests', 'workRequest.requestRests'])->findOrFail($id);
 
+        // 管理者 or 一般ユーザー判定
+        $authUser = Auth::user();
+        $layout = $authUser->admin_flg === 1 ? 'layouts.admin_app' : 'layouts.app';
+
         //勤怠を修正申請中の場合
         if ($attendance->workRequest && $attendance->workRequest->request_flg === 0) {
-            return view('attendance.request_detail', compact('attendance'));
+            return view('attendance.request_detail', compact('attendance', 'layout'));
         }
 
         // 勤怠が承認済みの場合
         if ($attendance->workRequest && $attendance->workRequest->request_flg === 1) {
-            return view('attendance.request_detail', compact('attendance'));
+            return view('attendance.request_detail', compact('attendance', 'layout'));
         }
 
         //勤怠を修正申請中ではない場合
-        return view('attendance.detail', compact('attendance'));
+        return view('attendance.detail', compact('attendance', 'layout'));
     }
 
     //勤怠詳細画面で、勤務内容を修正する

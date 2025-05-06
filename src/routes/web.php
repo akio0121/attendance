@@ -84,7 +84,7 @@ Route::middleware(['auth', 'is_admin'])->prefix('admin')->name('admin.')->group(
 );
 
 
-Route::middleware('auth')->group(function () {
+Route::middleware('auth', 'verified')->group(function () {
 
     //ログイン後、勤務状態を取得して出勤登録画面を表示する
     Route::get('/attendance', [AttendanceController::class, 'showEntry']);
@@ -115,8 +115,9 @@ Route::middleware('auth')->group(function () {
 
     //申請一覧画面(一般ユーザー)で、承認待ちor承認済み勤怠の表示を切り替える
     Route::get('/stamp_correction_request/list', [StampController::class, 'showRequestList'])->name('user.request.list');
+});
 
-
+Route::middleware("auth")->group(function () {
     /**
      * 認証メール確認用の画面表示
      */

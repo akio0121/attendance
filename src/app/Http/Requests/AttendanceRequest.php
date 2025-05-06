@@ -70,7 +70,7 @@ class AttendanceRequest extends FormRequest
 
             // 出勤・退勤の前後関係チェック
             if ($start && $finish && $start > $finish) {
-                $validator->errors()->add('start_work', '休憩時間が勤務時間外です');
+                $validator->errors()->add('start_work', '出勤時間もしくは退勤時間が不適切な値です');
             }
 
             if ($finish) {

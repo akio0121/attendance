@@ -30,7 +30,7 @@ $ php artisan db:seed
 
 
 ## 使用技術（実行環境）
-- PHP 8.3.12
+- PHP 7.4.9
 - MySQL 8.0.26
 - Laravel 8.83.8
 

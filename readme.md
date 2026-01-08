@@ -38,6 +38,6 @@ $ php artisan db:seed
 ![ER図](./ER.png)
 
 ### URL
-- 開発環境 http://localhost/
+- 開発環境 http://localhost/login
 - phpMyAdmin http://localhost:8080/
 - MailHog http://localhost:8025/
